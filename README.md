@@ -38,3 +38,5 @@ O *Athus* visa criar uma comunidade online onde talentos das periferias sejam re
 
    ```bash
    git clone https://github.com/felipemariano2511/ProjetoAthus.git
+
+Este projeto está licenciado sob a [MIT License](LICENSE). Veja o arquivo `LICENSE` para mais detalhes.
