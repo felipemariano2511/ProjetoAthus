@@ -85,7 +85,4 @@ public class UsuarioController {
             return ResponseEntity.ok(buscarUsuario.get());
         }
     }
-
-
-
 }
