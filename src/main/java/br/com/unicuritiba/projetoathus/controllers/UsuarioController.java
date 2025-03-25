@@ -1,7 +1,7 @@
-package br.com.unicuritiba.projetoathus.controller;
+package br.com.unicuritiba.projetoathus.controllers;
 
-import br.com.unicuritiba.projetoathus.model.Usuario;
-import br.com.unicuritiba.projetoathus.repository.UsuarioRepository;
+import br.com.unicuritiba.projetoathus.models.Usuario;
+import br.com.unicuritiba.projetoathus.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package br.com.unicuritiba.projetoathus.model;
+package br.com.unicuritiba.projetoathus.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
