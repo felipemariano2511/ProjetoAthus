@@ -2,41 +2,38 @@ package br.com.unicuritiba.projetoathus.controllers;
 
 import br.com.unicuritiba.projetoathus.models.Usuario;
 import br.com.unicuritiba.projetoathus.repositories.UsuarioRepository;
+import br.com.unicuritiba.projetoathus.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
-    UsuarioRepository repository;
+    private UsuarioRepository repository;
 
-    @GetMapping("/usuarios")
+    @Autowired
+    private UsuarioService service;
+
+    @GetMapping()
     public ResponseEntity<List<Usuario>> getAllUsuarios() {
-
-        List<Usuario> buscarUsuarios = repository.findAll();
+        List<Usuario> buscarUsuarios = service.getAllUsuarios();
 
         if (buscarUsuarios.isEmpty()) {
-            return ResponseEntity.ofNullable(null);
+            return ResponseEntity.noContent().build();
         }else {
             return ResponseEntity.ok(buscarUsuarios);
         }
     }
 
-    @GetMapping("/usuarios/{id}")
-    public ResponseEntity<Optional<Usuario>> getUsuario(@PathVariable @Valid Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Usuario>> getUsuario(@PathVariable Long id) {
 
-        Optional<Usuario> buscarUsuario = repository.findById(id);
+        Optional<Usuario> buscarUsuario = service.getUsuario(id);
 
         if (buscarUsuario.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -45,37 +42,26 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping("/usuarios")
+    @PostMapping()
     public ResponseEntity<Usuario> postUsuario(@RequestBody Usuario usuario) {
-        Usuario salvarUsuario = repository.save(usuario);
+        Usuario salvarUsuario = service.postUsuario(usuario);
         return ResponseEntity.ok(salvarUsuario);
     }
 
-    @PutMapping("/usuarios/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Usuario> putUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
 
-        Optional<Usuario> buscarUsuario = repository.findById(id);
-
-        if (buscarUsuario.isEmpty()) {
+        try {
+            Usuario usuarioAtualizado = service.putUsuario(id, usuario);
+            //Caso encontre o usuário irá retorna 200 Ok!
+            return ResponseEntity.ok(usuarioAtualizado);
+        } catch (Exception ex) {
+            // Caso o usuário não seja encontrado, retorna 404 Not Found
             return ResponseEntity.notFound().build();
-        }else {
-            Usuario usuarioExistente = buscarUsuario.get();
-
-            // Atualizando os campos do usuário existente com os dados recebidos
-            usuarioExistente.setNome(usuario.getNome());
-            usuarioExistente.setCpf(usuario.getCpf());
-            usuarioExistente.setTelefone(usuario.getTelefone());
-            usuarioExistente.setEndereco(usuario.getEndereco());
-
-            // Salvando as alterações no banco
-            repository.saveAndFlush(usuarioExistente);
-
-            // Retorna o usuário atualizado
-            return ResponseEntity.ok(usuarioExistente);
         }
     }
 
-    @DeleteMapping("/usuarios/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Usuario> deleteUsuario(@PathVariable Long id) {
         Optional<Usuario> buscarUsuario = repository.findById(id);
         if (buscarUsuario.isEmpty()) {
