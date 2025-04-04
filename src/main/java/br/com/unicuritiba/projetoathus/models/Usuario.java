@@ -10,6 +10,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "usuario")
 @Getter
@@ -24,6 +26,10 @@ public class Usuario {
     @NotNull(message = "O nome não pode ser nulo")
     private String nome;
 
+    @Column(name = "senha", nullable = false)
+    @NotNull
+    private String senha;
+
     @Column(name = "cpf", nullable = false)
     @NotNull(message = "O CPF não pode ser nulo")
     private String cpf;
@@ -36,5 +42,8 @@ public class Usuario {
     @NotNull(message = "O endereço não pode ser nulo")
     private String endereco;
 
+    @Column(name = "data_nascimento")
+    @NotNull
+    private Date dataNascimento;
 
 }

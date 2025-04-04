@@ -4,6 +4,8 @@ import br.com.unicuritiba.projetoathus.models.Usuario;
 import br.com.unicuritiba.projetoathus.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,8 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
+    private PasswordEncoder passwordEncoder;
+
     public List<Usuario> getAllUsuarios() {
         return repository.findAll();
     }
@@ -23,6 +27,8 @@ public class UsuarioService {
     }
 
     public Usuario postUsuario(Usuario usuario) {
+        this.passwordEncoder = new BCryptPasswordEncoder();
+        usuario.setSenha(this.passwordEncoder.encode(usuario.getSenha()));
         return repository.saveAndFlush(usuario);
     }
 
