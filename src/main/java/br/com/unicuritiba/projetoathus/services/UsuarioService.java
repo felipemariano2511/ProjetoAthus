@@ -3,7 +3,6 @@ package br.com.unicuritiba.projetoathus.services;
 import br.com.unicuritiba.projetoathus.models.Usuario;
 import br.com.unicuritiba.projetoathus.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
