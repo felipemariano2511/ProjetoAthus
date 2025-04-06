@@ -13,7 +13,7 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuarios")
 @Getter
 @Setter
 public class Usuario {
@@ -85,7 +85,6 @@ public class Usuario {
     @NotNull
     private boolean ativo;
 
-
     @Column(name = "prestador_servico", nullable = false)
     @NotNull
     private boolean prestadorServico;
@@ -93,6 +92,5 @@ public class Usuario {
     @Column(name = "banido", nullable = false)
     @NotNull
     private boolean banido;
-
 
 }

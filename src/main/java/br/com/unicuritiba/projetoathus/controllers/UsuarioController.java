@@ -68,7 +68,7 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }else {
             repository.deleteById(id);
-            return ResponseEntity.ok(buscarUsuario.get());
+            return ResponseEntity.ok().build();
         }
     }
 }
