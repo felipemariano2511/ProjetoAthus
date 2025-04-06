@@ -3,12 +3,8 @@ package br.com.unicuritiba.projetoathus.services;
 import br.com.unicuritiba.projetoathus.models.Usuario;
 import br.com.unicuritiba.projetoathus.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< Updated upstream
-=======
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
->>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
