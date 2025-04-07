@@ -42,12 +42,13 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> putUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioDTO> putUsuario(@RequestBody Usuario usuario) {
         try {
-            Usuario atualizado = service.putUsuario(id, usuario);
+            Usuario atualizado = service.putUsuario(usuario);
             return ResponseEntity.ok(mapper.toDTO(atualizado));
         } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
         }
     }
 
