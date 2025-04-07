@@ -1,13 +1,14 @@
 package br.com.unicuritiba.projetoathus.controllers;
 
-import br.com.unicuritiba.projetoathus.models.Usuario;
-import br.com.unicuritiba.projetoathus.repositories.UsuarioRepository;
-import br.com.unicuritiba.projetoathus.services.UsuarioService;
+import br.com.unicuritiba.projetoathus.domain.models.Usuario;
+import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
+import br.com.unicuritiba.projetoathus.dto.UsuarioDTO;
+import br.com.unicuritiba.projetoathus.application.services.UsuarioService;
+import br.com.unicuritiba.projetoathus.mappers.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -19,56 +20,45 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
-    @GetMapping()
-    public ResponseEntity<List<Usuario>> getAllUsuarios() {
-        List<Usuario> buscarUsuarios = service.getAllUsuarios();
+    @Autowired
+    private UsuarioMapper mapper;
 
-        if (buscarUsuarios.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }else {
-            return ResponseEntity.ok(buscarUsuarios);
-        }
+    @GetMapping
+    public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
+        List<UsuarioDTO> usuarios = service.getAllUsuarios()
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
+
+        return usuarios.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Usuario>> getUsuario(@PathVariable Long id) {
-
-        Optional<Usuario> buscarUsuario = service.getUsuario(id);
-
-        if (buscarUsuario.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }else {
-            return ResponseEntity.ok(buscarUsuario);
-        }
-    }
-
-    @PostMapping()
-    public ResponseEntity<Usuario> postUsuario(@RequestBody Usuario usuario) {
-        Usuario salvarUsuario = service.postUsuario(usuario);
-        return ResponseEntity.ok(salvarUsuario);
+    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable Long id) {
+        return service.getUsuario(id)
+                .map(mapper::toDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> putUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-
+    public ResponseEntity<UsuarioDTO> putUsuario(@RequestBody Usuario usuario) {
         try {
-            Usuario usuarioAtualizado = service.putUsuario(id, usuario);
-            //Caso encontre o usuário irá retorna 200 Ok!
-            return ResponseEntity.ok(usuarioAtualizado);
-        } catch (Exception ex) {
-            // Caso o usuário não seja encontrado, retorna 404 Not Found
-            return ResponseEntity.notFound().build();
+            Usuario atualizado = service.putUsuario(usuario);
+            return ResponseEntity.ok(mapper.toDTO(atualizado));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Usuario> deleteUsuario(@PathVariable Long id) {
-        Optional<Usuario> buscarUsuario = repository.findById(id);
-        if (buscarUsuario.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }else {
-            repository.deleteById(id);
-            return ResponseEntity.ok().build();
-        }
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
+        return repository.findById(id)
+                .map(usuario -> {
+                    repository.deleteById(id);
+                    return ResponseEntity.ok().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }
