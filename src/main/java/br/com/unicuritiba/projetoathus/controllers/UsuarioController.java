@@ -41,7 +41,7 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<UsuarioDTO> putUsuario(@RequestBody Usuario usuario) {
         try {
             Usuario atualizado = service.putUsuario(usuario);
