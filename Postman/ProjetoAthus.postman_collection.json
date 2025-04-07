@@ -31,33 +31,27 @@
 				{
 					"name": "BuscarUsuario",
 					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "CadastrarUsuario",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"email\" : \"marcelo@gmail.com\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"123\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brazil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Lá Ele 69\",\r\n    \"numero\" : \"69\",\r\n    \"apartamento\" : \"\",\r\n    \"logradouro\" : \"Casa do Caralho\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
 								}
-							}
+							]
 						},
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios",
+							"raw": "localhost:8080/usuarios/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"usuarios"
+								"usuarios",
+								"1"
 							]
 						}
 					},
@@ -66,11 +60,21 @@
 				{
 					"name": "AtualizarUsuario",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"email\" : \"marcelo@gmail.com\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"123\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brazil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Lá Ele 24\",\r\n    \"numero\" : \"24\",\r\n    \"apartamento\" : \"\",\r\n    \"logradouro\" : \"Casa do Caralho\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
+							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"123\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brazil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Lá Ele 24\",\r\n    \"numero\" : \"24\",\r\n    \"apartamento\" : \"\",\r\n    \"logradouro\" : \"Casa do Caralho\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,6 +98,16 @@
 				{
 					"name": "DeletarUsario",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -114,6 +128,67 @@
 							"path": [
 								"usuarios",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login / Cadastrar",
+			"item": [
+				{
+					"name": "CadastrarUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\" : \"Josias da Silva\",\r\n    \"email\" : \"josias@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/cadastrar",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"josias@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
 							]
 						}
 					},
