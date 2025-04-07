@@ -25,20 +25,27 @@ public class UsuarioService {
     public Optional<Usuario> getUsuario(Long id){ return repository.findById(id); }
 
     public Usuario putUsuario(Usuario usuario) throws Exception {
-        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // Recupera o usuário logado a partir do contexto de segurança
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!(principal instanceof Usuario)) {
+            throw new Exception("Usuário não autenticado");
+        }
+
+        Usuario usuarioLogado = (Usuario) principal;
         Long id = usuarioLogado.getId();
 
         Optional<Usuario> buscarUsuario = repository.findById(id);
-
         if (buscarUsuario.isEmpty()) {
             throw new Exception("Usuário não encontrado com id: " + id);
         }
 
         Usuario usuarioAtualizado = buscarUsuario.get();
 
-        usuarioAtualizado.setNome(usuario.getNome());
-        usuarioAtualizado.setTelefone(usuario.getTelefone());
-        usuarioAtualizado.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        if (usuario.getSenha() != null && !usuario.getSenha().isBlank()) {
+            usuarioAtualizado.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        }
+
         usuarioAtualizado.setCpf(usuario.getCpf());
         usuarioAtualizado.setDataNascimento(usuario.getDataNascimento());
         usuarioAtualizado.setPais(usuario.getPais());
@@ -53,4 +60,5 @@ public class UsuarioService {
 
         return repository.saveAndFlush(usuarioAtualizado);
     }
+
 }
