@@ -13,6 +13,16 @@
 				{
 					"name": "BuscarTodosUsuarios",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6Impvc2lhc0BnbWFpbC5jb20iLCJleHAiOjE3NDM5OTY2ODh9.3TpXHZnCtiX3bHt49Gd51I127WXVY876yOUa31N8LOQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -36,7 +46,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6Impvc2lhc0BnbWFpbC5jb20iLCJleHAiOjE3NDQwNjE4MTB9.hozCkjzudH-eAt0MtAk63WmlGzgXHLKfKjmAEjHpPO8",
 									"type": "string"
 								}
 							]
@@ -44,14 +54,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/1",
+							"raw": "localhost:8080/usuarios/3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"1"
+								"3"
 							]
 						}
 					},
@@ -74,7 +84,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"123\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brazil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Lá Ele 24\",\r\n    \"numero\" : \"24\",\r\n    \"apartamento\" : \"\",\r\n    \"logradouro\" : \"Casa do Caralho\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
+							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"123\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brazil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Lá Ele 24\",\r\n    \"numero\" : 24,\r\n    \"apartamento\" : \"\",\r\n    \"logradouro\" : \"Casa do Caralho\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
