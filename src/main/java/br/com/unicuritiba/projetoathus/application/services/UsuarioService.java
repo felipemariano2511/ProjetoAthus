@@ -1,7 +1,7 @@
-package br.com.unicuritiba.projetoathus.services;
+package br.com.unicuritiba.projetoathus.application.services;
 
-import br.com.unicuritiba.projetoathus.models.Usuario;
-import br.com.unicuritiba.projetoathus.repositories.UsuarioRepository;
+import br.com.unicuritiba.projetoathus.domain.models.Usuario;
+import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,12 +23,6 @@ public class UsuarioService {
 
     public Optional<Usuario> getUsuario(Long id){
         return repository.findById(id);
-    }
-
-    public Usuario postUsuario(Usuario usuario) {
-        this.passwordEncoder = new BCryptPasswordEncoder();
-        usuario.setSenha(this.passwordEncoder.encode(usuario.getSenha()));
-        return repository.saveAndFlush(usuario);
     }
 
     public Usuario putUsuario(Long id, Usuario usuario) throws Exception {
