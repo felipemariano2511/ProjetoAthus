@@ -1,6 +1,7 @@
 package br.com.unicuritiba.projetoathus.application.services;
 
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
+import br.com.unicuritiba.projetoathus.domain.models.enums.UsuarioEnum;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,6 +60,11 @@ public class UsuarioService {
         usuarioAtualizado.setImagemPerfil(usuario.getImagemPerfil());
 
         return repository.saveAndFlush(usuarioAtualizado);
+    }
+
+    public String obterDescricaoCargo(Integer codigo) {
+        UsuarioEnum usuarioEnum = UsuarioEnum.toEnum(codigo);
+        return usuarioEnum != null ? usuarioEnum.getDescricao() : "Cargo não encontrado!";
     }
 
 }
