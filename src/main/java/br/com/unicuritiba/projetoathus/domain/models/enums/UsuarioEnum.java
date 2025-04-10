@@ -1,9 +1,7 @@
 package br.com.unicuritiba.projetoathus.domain.models.enums;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
 import java.util.Objects;
 
 @AllArgsConstructor

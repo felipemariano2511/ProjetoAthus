@@ -1,15 +1,11 @@
 package br.com.unicuritiba.projetoathus.domain.models;
 
 import br.com.unicuritiba.projetoathus.domain.models.enums.UsuarioEnum;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "usuarios")
