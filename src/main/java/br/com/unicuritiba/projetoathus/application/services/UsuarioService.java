@@ -26,7 +26,6 @@ public class UsuarioService {
     public Optional<Usuario> getUsuario(Long id){ return repository.findById(id); }
 
     public Usuario putUsuario(Usuario usuario) throws Exception {
-        // Recupera o usuário logado a partir do contexto de segurança
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!(principal instanceof Usuario)) {
@@ -47,6 +46,7 @@ public class UsuarioService {
             usuarioAtualizado.setSenha(passwordEncoder.encode(usuario.getSenha()));
         }
 
+        usuarioAtualizado.setNome(usuario.getNome());
         usuarioAtualizado.setCpf(usuario.getCpf());
         usuarioAtualizado.setDataNascimento(usuario.getDataNascimento());
         usuarioAtualizado.setPais(usuario.getPais());
