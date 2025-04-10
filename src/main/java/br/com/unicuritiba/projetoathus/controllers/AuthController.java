@@ -1,5 +1,6 @@
 package br.com.unicuritiba.projetoathus.controllers;
 
+import br.com.unicuritiba.projetoathus.domain.models.enums.UsuarioEnum;
 import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
 import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
 import br.com.unicuritiba.projetoathus.dto.ResponseDTO;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
+
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,7 +29,6 @@ public class AuthController {
     private final TokenService tokenService;
 
     private final String IMAGEM_PADRAO = "../images/usuario.png";
-    private final Short NIVEL = 0;
     private final Boolean ATIVO = true;
     private final Boolean NAO_BANIDO = true;
 
@@ -54,7 +57,7 @@ public class AuthController {
             novoUsuario.setEmail(body.email());
             novoUsuario.setSenha(passwordEncoder.encode(body.senha()));
             novoUsuario.setImagemPerfil(IMAGEM_PADRAO);
-            novoUsuario.setNivel(NIVEL);
+            novoUsuario.setNivel(UsuarioEnum.USER);
             novoUsuario.setAtivo(ATIVO);
             novoUsuario.setBanido(NAO_BANIDO);
             this.repository.save(novoUsuario);

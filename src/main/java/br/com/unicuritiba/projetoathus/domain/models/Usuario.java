@@ -1,15 +1,15 @@
 package br.com.unicuritiba.projetoathus.domain.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.GenerationType;
+import br.com.unicuritiba.projetoathus.domain.models.enums.UsuarioEnum;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "usuarios")
@@ -65,8 +65,9 @@ public class Usuario {
     @Column(name = "logradouro")
     private String logradouro;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "nivel")
-    private Short nivel;
+    private UsuarioEnum nivel;
 
     @Column(name = "imagem_perfil")
     private String imagemPerfil;

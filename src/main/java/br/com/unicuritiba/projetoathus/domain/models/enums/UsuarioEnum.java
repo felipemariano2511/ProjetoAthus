@@ -9,9 +9,9 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 public enum UsuarioEnum   {
-    ADMIN(1, "ROLE_ADMIN"),
-    TECHNICIAN(2, "ROLE_TECHNICIAN"),
-    USER(3, "ROLE_USER");
+    USER(0, "ROLE_USER"),
+    TECHNICIAN(1, "ROLE_TECHNICIAN"),
+    ADMIN(2, "ROLE_ADMIN");
 
     private Integer codigo;
     private String descricao;
