@@ -1,4 +1,4 @@
-package br.com.unicuritiba.projetoathus.models;
+package br.com.unicuritiba.projetoathus.domain.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
