@@ -53,6 +53,8 @@ public class AuthController {
             novoUsuario.setNome(body.nome());
             novoUsuario.setEmail(body.email());
             novoUsuario.setSenha(passwordEncoder.encode(body.senha()));
+            novoUsuario.setNumero(0);
+            novoUsuario.setApartamento(0);
             novoUsuario.setImagemPerfil(IMAGEM_PADRAO);
             novoUsuario.setNivel(NIVEL);
             novoUsuario.setAtivo(ATIVO);

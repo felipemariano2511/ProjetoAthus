@@ -60,7 +60,7 @@ public class Usuario {
     private Integer numero;
 
     @Column(name = "apartamento")
-    private String apartamento;
+    private Integer apartamento;
 
     @Column(name = "logradouro")
     private String logradouro;
