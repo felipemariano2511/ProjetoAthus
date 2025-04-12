@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+
 
 public class ErrorResponse {
 
@@ -18,4 +18,12 @@ public class ErrorResponse {
     private LocalDateTime data;
     private int status;
     private String path;
+
+    public ErrorResponse(String message, LocalDateTime data, int status, String path) {
+        this.message = message;
+        this.data = data;
+        this.status = status;
+        this.path = path;
+    }
 }
+

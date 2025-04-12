@@ -2,6 +2,8 @@ package br.com.unicuritiba.projetoathus.application.services;
 
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.ForbiddenException;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +31,7 @@ public class UsuarioService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!(principal instanceof Usuario)) {
-            throw new Exception("Usuário não autenticado");
+            throw new ForbiddenException("Usuário não autenticado");
         }
 
         Usuario usuarioLogado = (Usuario) principal;

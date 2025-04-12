@@ -6,6 +6,7 @@ import br.com.unicuritiba.projetoathus.dto.ResponseDTO;
 import br.com.unicuritiba.projetoathus.application.services.TokenService;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO body) {
-        Usuario usuario = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+        Usuario usuario = this.repository.findByEmail(body.email()).orElseThrow(() -> new UnprocessableEntityException("Usuário não encontrado!"));
 
         if (passwordEncoder.matches(body.senha(), usuario.getSenha())) {
             String token = this.tokenService.gerarToken(usuario);
@@ -63,6 +64,8 @@ public class AuthController {
 
             return ResponseEntity.ok(new ResponseDTO(novoUsuario.getNome(), token));
         }
+
         return ResponseEntity.badRequest().build();
+
     }
 }
