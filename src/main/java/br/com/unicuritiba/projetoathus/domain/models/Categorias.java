@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "categorias_servicos")
+@Table(name = "categorias")
 @Getter
 @Setter
 public class Categorias {
@@ -19,6 +19,6 @@ public class Categorias {
     @Column(name = "nome")
     private String nome;
 
-    @OneToMany(mappedBy = "categorias")
+    @OneToMany(mappedBy = "categoria")
     private List<Servicos> servicos;
 }
