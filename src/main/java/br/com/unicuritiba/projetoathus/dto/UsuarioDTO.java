@@ -15,7 +15,7 @@ public record UsuarioDTO(
         String cep,
         String rua,
         int numero,
-        String apartamento,
+        int apartamento,
         String logradouro,
         String imagemPerfil,
         boolean ativo,

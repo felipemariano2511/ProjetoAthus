@@ -1,68 +1,62 @@
 package br.com.unicuritiba.projetoathus.controllers;
 
-import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
-import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
-import br.com.unicuritiba.projetoathus.dto.ResponseDTO;
+import br.com.unicuritiba.projetoathus.application.services.AuthService;
 import br.com.unicuritiba.projetoathus.application.services.TokenService;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
+import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
+import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
+import br.com.unicuritiba.projetoathus.dto.ResponseDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import lombok.AllArgsConstructor;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthController {
 
     private final UsuarioRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
-
-    private final String IMAGEM_PADRAO = "../images/usuario.png";
-    private final Short NIVEL = 0;
-    private final Boolean ATIVO = true;
-    private final Boolean NAO_BANIDO = true;
+    private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO body) {
-        Usuario usuario = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO body) {
+        Usuario usuario = repository.findByEmail(body.email())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
-        if (passwordEncoder.matches(body.senha(), usuario.getSenha())) {
-            String token = this.tokenService.gerarToken(usuario);
-
-            return ResponseEntity.ok(new ResponseDTO(usuario.getNome(), token));
+        if (!passwordEncoder.matches(body.senha(), usuario.getSenha())) {
+            return ResponseEntity.badRequest().body("Senha inválida.");
         }
 
-        //Ajustar futuramente para enviar um erro de senha inválida
-        return ResponseEntity.badRequest().build();
+        String token = tokenService.gerarToken(usuario);
+        return ResponseEntity.ok(new ResponseDTO(usuario.getNome(), token));
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity cadastrar(@RequestBody RegisterRequestDTO body) {
-        Optional <Usuario> usuario = this.repository.findByEmail(body.email());
-
-        if(usuario.isEmpty()) {
-            Usuario novoUsuario = new Usuario();
-
-            novoUsuario.setNome(body.nome());
-            novoUsuario.setEmail(body.email());
-            novoUsuario.setSenha(passwordEncoder.encode(body.senha()));
-            novoUsuario.setImagemPerfil(IMAGEM_PADRAO);
-            novoUsuario.setNivel(NIVEL);
-            novoUsuario.setAtivo(ATIVO);
-            novoUsuario.setBanido(NAO_BANIDO);
-            this.repository.save(novoUsuario);
-
-            String token = this.tokenService.gerarToken(novoUsuario);
-
-            return ResponseEntity.ok(new ResponseDTO(novoUsuario.getNome(), token));
+    public ResponseEntity<?> cadastrar(@RequestBody RegisterRequestDTO body) {
+        try {
+            String msg = authService.iniciarCadastro(body);
+            return ResponseEntity.ok(msg);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/validarcodigo")
+    public ResponseEntity<?> validarCodigo(@RequestBody Map<String, String> body) {
+        try {
+            String email = body.get("email");
+            int codigo = Integer.parseInt(body.get("codigo"));
+            ResponseDTO response = authService.validarCodigo(email, codigo);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
