@@ -57,16 +57,16 @@ public class Usuario {
     private String rua;
 
     @Column(name = "numero")
-    private Integer numero;
+    private int numero;
 
     @Column(name = "apartamento")
-    private String apartamento;
+    private int apartamento;
 
     @Column(name = "logradouro")
     private String logradouro;
 
     @Column(name = "nivel")
-    private Short nivel;
+    private short nivel;
 
     @Column(name = "imagem_perfil")
     private String imagemPerfil;
