@@ -7,6 +7,7 @@ import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
 import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
 import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
 import br.com.unicuritiba.projetoathus.dto.ResponseDTO;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +27,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO body) {
         Usuario usuario = repository.findByEmail(body.email())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+                .orElseThrow(() -> new UnprocessableEntityException("Usuário não encontrado!"));
 
         if (!passwordEncoder.matches(body.senha(), usuario.getSenha())) {
             return ResponseEntity.badRequest().body("Senha inválida.");
