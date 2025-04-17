@@ -16,13 +16,13 @@ public class TokenService {
 
     @Value("${api.security.token.secret}")
     private String secret;
-    public String gerarToken(Usuario usuario) {
+    public String gerarToken(String email) {
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             String token = JWT.create()
                     .withIssuer("login-auth-api")
-                    .withSubject(usuario.getEmail())
+                    .withSubject(email)
                     .withExpiresAt(this.gerarDataExpiracao())
                     .sign(algorithm);
 
