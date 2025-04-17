@@ -28,6 +28,7 @@ public class TokenService {
 
             return token;
         } catch (JWTCreationException exception) {
+            //log interno
             throw new RuntimeException("Erro enquanto autenticando.");
         }
     }
