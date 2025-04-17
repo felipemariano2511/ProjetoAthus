@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO body) {
         Usuario usuario = repository.findByEmail(body.email())
-                .orElseThrow(() -> new UnprocessableEntityException("Usuário não encontrado!"));
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
         if (!passwordEncoder.matches(body.senha(), usuario.getSenha())) {
             return ResponseEntity.badRequest().body("Senha inválida.");
