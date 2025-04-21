@@ -32,6 +32,10 @@ public class OAuth2GoogleService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    EmailService emailService;
+
     public String validarToken(String accessToken) {
 
         Map<String, Object> usuarioInfo = getUserInfo(accessToken);
@@ -53,8 +57,10 @@ public class OAuth2GoogleService {
             usuario.setBanido(NAO_BANIDO);
 
             usuarioRepository.save(usuario);
+            emailService.enviarEmail((String) usuarioInfo.get("email"), "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
 
             return tokenService.gerarToken((String) usuarioInfo.get("email"));
+
         } else {
 
             return tokenService.gerarToken((String) usuarioInfo.get("email"));

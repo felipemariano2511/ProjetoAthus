@@ -1,7 +1,6 @@
 package br.com.unicuritiba.projetoathus.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.OAuth2GoogleService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

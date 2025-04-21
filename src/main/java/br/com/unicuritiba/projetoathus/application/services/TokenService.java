@@ -1,6 +1,5 @@
 package br.com.unicuritiba.projetoathus.application.services;
 
-import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -48,6 +47,6 @@ public class TokenService {
     }
 
     private Instant gerarDataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-3"));
+        return LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-3"));
     }
 }
