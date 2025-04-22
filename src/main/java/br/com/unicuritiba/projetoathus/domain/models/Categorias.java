@@ -19,5 +19,6 @@ public class Categorias {
     @Column(name = "nome")
     private String nome;
 
-
+    @OneToMany(mappedBy = "categoria")
+    private List<Servicos> servicos;
 }
