@@ -1,6 +1,5 @@
 package br.com.unicuritiba.projetoathus.application.services;
 
-import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -16,13 +15,13 @@ public class TokenService {
 
     @Value("${api.security.token.secret}")
     private String secret;
-    public String gerarToken(Usuario usuario) {
+    public String gerarToken(String email) {
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             String token = JWT.create()
                     .withIssuer("login-auth-api")
-                    .withSubject(usuario.getEmail())
+                    .withSubject(email)
                     .withExpiresAt(this.gerarDataExpiracao())
                     .sign(algorithm);
 
@@ -48,6 +47,6 @@ public class TokenService {
     }
 
     private Instant gerarDataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-3"));
+        return LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-3"));
     }
 }

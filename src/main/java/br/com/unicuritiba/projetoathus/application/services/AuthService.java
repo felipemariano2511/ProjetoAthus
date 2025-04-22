@@ -82,7 +82,7 @@ public class AuthService {
         cadastrosPendentes.remove(email);
 
         emailService.enviarEmail(email, "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
-        String token = tokenService.gerarToken(usuario);
+        String token = tokenService.gerarToken(usuario.getEmail());
 
         return new ResponseDTO(usuario.getNome(), token);
     }

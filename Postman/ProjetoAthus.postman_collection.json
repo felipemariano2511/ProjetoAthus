@@ -166,7 +166,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipemariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"raw": "{\r\n    \"nome\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -194,7 +194,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"felipemariano2511@gmail.com\",\r\n    \"codigo\" : \"\"\r\n}",
+							"raw": "{\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"codigo\" : \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -238,6 +238,100 @@
 							"path": [
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OAuth2Google",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "https://www.googleapis.com/auth/userinfo.email openid profile",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://accounts.google.com/o/oauth2/token",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "OAuht2Google",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "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",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "302209231698-g4dsrnebsh66hc3j1rjtla69ikr6qa8v.apps.googleusercontent.com",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://accounts.google.com/o/oauth2/auth",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"access_token\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/oauth2/google/autenticado",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"oauth2",
+								"google",
+								"autenticado"
 							]
 						}
 					},

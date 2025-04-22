@@ -33,7 +33,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Senha inválida.");
         }
 
-        String token = tokenService.gerarToken(usuario);
+        String token = tokenService.gerarToken(usuario.getEmail());
         return ResponseEntity.ok(new ResponseDTO(usuario.getNome(), token));
     }
 

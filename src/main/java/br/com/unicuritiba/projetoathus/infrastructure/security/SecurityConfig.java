@@ -35,6 +35,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/cadastrar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/validarcodigo").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/oauth2/google/autenticado").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
