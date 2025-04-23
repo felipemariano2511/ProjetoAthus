@@ -46,7 +46,22 @@ public class TokenService {
         }
     }
 
+    public String gerarRefreshToken(String email) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+
+            return JWT.create()
+                    .withIssuer("login-auth-api")
+                    .withSubject(email)
+                    .withClaim("type", "refresh")
+                    .withExpiresAt(LocalDateTime.now().plusMonths(3).toInstant(ZoneOffset.of("-3")))
+                    .sign(algorithm);
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Erro ao gerar refresh token.");
+        }
+    }
+
     private Instant gerarDataExpiracao() {
-        return LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-3"));
+        return LocalDateTime.now().plusHours(24).toInstant(ZoneOffset.of("-3"));
     }
 }
