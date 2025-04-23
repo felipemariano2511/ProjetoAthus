@@ -15,10 +15,6 @@ import java.util.Random;
 @Service
 public class OAuth2GoogleService {
 
-    private final Short NIVEL = 0;
-    private final Boolean ATIVO = true;
-    private final Boolean NAO_BANIDO = true;
-
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
@@ -36,7 +32,7 @@ public class OAuth2GoogleService {
     @Autowired
     EmailService emailService;
 
-    public String validarToken(String accessToken) {
+    public ResponseEntity<?> validarToken(String accessToken) {
 
         Map<String, Object> usuarioInfo = getUserInfo(accessToken);
 
@@ -52,18 +48,31 @@ public class OAuth2GoogleService {
             usuario.setNumero(0);
             usuario.setApartamento(0);
             usuario.setImagemPerfil((String) usuarioInfo.get("picture"));
-            usuario.setNivel(NIVEL);
-            usuario.setAtivo(ATIVO);
-            usuario.setBanido(NAO_BANIDO);
+            usuario.setImagemPerfil("../images/usuario.png");
+            usuario.setNivel((short) 0);
+            usuario.setAtivo(true);
+            usuario.setBanido(false);
 
             usuarioRepository.save(usuario);
             emailService.enviarEmail((String) usuarioInfo.get("email"), "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
 
-            return tokenService.gerarToken((String) usuarioInfo.get("email"));
+            String novoAccessToken = tokenService.gerarToken(usuario.getEmail());
+            String novoRefreshToken = tokenService.gerarRefreshToken(usuario.getEmail());
+
+            return ResponseEntity.ok(Map.of(
+                    "accessToken", novoAccessToken,
+                    "refreshToken", novoRefreshToken
+            ));
 
         } else {
 
-            return tokenService.gerarToken((String) usuarioInfo.get("email"));
+            String novoAccessToken = tokenService.gerarToken((String) usuarioInfo.get("email"));
+            String novoRefreshToken = tokenService.gerarRefreshToken((String) usuarioInfo.get("email"));
+
+            return ResponseEntity.ok(Map.of(
+                    "accessToken", novoAccessToken,
+                    "refreshToken", novoRefreshToken
+            ));
         }
     }
 
@@ -82,8 +91,8 @@ public class OAuth2GoogleService {
 
         return senha.toString();
     }
-
-    public Map<String, Object> getUserInfo(String accessToken) {
+ 
+    private Map getUserInfo(String accessToken) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
