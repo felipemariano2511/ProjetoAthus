@@ -222,7 +222,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"felipemariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"raw": "{\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -332,6 +332,34 @@
 								"oauth2",
 								"google",
 								"autenticado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/refresh",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"refresh"
 							]
 						}
 					},

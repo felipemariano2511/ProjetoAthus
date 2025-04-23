@@ -3,11 +3,13 @@ package br.com.unicuritiba.projetoathus.application.services;
 import br.com.unicuritiba.projetoathus.application.mails.VerificarCadastro;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
+import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
 import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
-import br.com.unicuritiba.projetoathus.dto.ResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,11 +24,6 @@ public class AuthService {
 
     private final Map<String, VerificarCadastro> verificacoes = new ConcurrentHashMap<>();
     private final Map<String, RegisterRequestDTO> cadastrosPendentes = new ConcurrentHashMap<>();
-
-    private final String IMAGEM_PADRAO = "../images/usuario.png";
-    private final Short NIVEL = 0;
-    private final Boolean ATIVO = true;
-    private final Boolean NAO_BANIDO = true;
 
     public String iniciarCadastro(RegisterRequestDTO body) {
         if (repository.findByEmail(body.email()).isPresent()) {
@@ -48,7 +45,40 @@ public class AuthService {
         return "Código de verificação enviado para o e-mail.";
     }
 
-    public ResponseDTO validarCodigo(String email, int codigo) {
+    public ResponseEntity<Object> login(LoginRequestDTO body) {
+        Usuario usuario = repository.findByEmail(body.email())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        if (!passwordEncoder.matches(body.senha(), usuario.getSenha())) {
+            return ResponseEntity.badRequest().body("Senha inválida.");
+        }
+
+        String accessToken = tokenService.gerarToken(usuario.getEmail());
+        String refreshToken = tokenService.gerarRefreshToken(usuario.getEmail());
+
+        return ResponseEntity.ok(Map.of(
+                "accessToken", accessToken,
+                "refreshToken", refreshToken
+        ));
+    }
+
+    public ResponseEntity<?> refresh(String refreshToken) {
+        String email = tokenService.validarToken(refreshToken);
+
+        if (email == null) {
+            return ResponseEntity.badRequest().body("Refresh token inválido.");
+        }
+
+        String novoAccessToken = tokenService.gerarToken(email);
+        String novoRefreshToken = tokenService.gerarRefreshToken(email);
+
+        return ResponseEntity.ok(Map.of(
+                "accessToken", novoAccessToken,
+                "refreshToken", novoRefreshToken
+        ));
+    }
+
+    public ResponseEntity<?> validarCodigo(String email, int codigo) {
         VerificarCadastro verificador = verificacoes.get(email);
         if (verificador == null) {
             throw new IllegalStateException("Nenhum código foi gerado para esse e-mail.");
@@ -72,18 +102,23 @@ public class AuthService {
         usuario.setSenha(passwordEncoder.encode(dados.senha()));
         usuario.setNumero(0);
         usuario.setApartamento(0);
-        usuario.setImagemPerfil(IMAGEM_PADRAO);
-        usuario.setNivel(NIVEL);
-        usuario.setAtivo(ATIVO);
-        usuario.setBanido(NAO_BANIDO);
+        usuario.setImagemPerfil("../images/usuario.png");
+        usuario.setNivel((short) 0);
+        usuario.setAtivo(true);
+        usuario.setBanido(false);
 
         repository.save(usuario);
         verificacoes.remove(email);
         cadastrosPendentes.remove(email);
 
         emailService.enviarEmail(email, "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
-        String token = tokenService.gerarToken(usuario.getEmail());
 
-        return new ResponseDTO(usuario.getNome(), token);
+        String novoAccessToken = tokenService.gerarToken(usuario.getEmail());
+        String novoRefreshToken = tokenService.gerarRefreshToken(email);
+
+        return ResponseEntity.ok(Map.of(
+                "accessToken", novoAccessToken,
+                "refreshToken", novoRefreshToken
+        ));
     }
 }

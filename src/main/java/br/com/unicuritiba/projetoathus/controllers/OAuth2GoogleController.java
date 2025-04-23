@@ -18,8 +18,6 @@ public class OAuth2GoogleController {
 
     @PostMapping("/autenticado")
     public ResponseEntity<?> autenticarComGoogle(@RequestBody Map<String, String> body) {
-        String jwtAutenticado = auth2GoogleService.validarToken(body.get("access_token"));
-
-        return ResponseEntity.ok(Map.of("token", jwtAutenticado));
+        return ResponseEntity.ok(auth2GoogleService.validarToken(body.get("access_token")));
     }
 }
