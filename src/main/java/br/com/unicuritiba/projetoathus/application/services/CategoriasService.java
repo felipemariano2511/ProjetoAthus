@@ -5,7 +5,6 @@ import br.com.unicuritiba.projetoathus.domain.repositories.CategoriasRepository;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 

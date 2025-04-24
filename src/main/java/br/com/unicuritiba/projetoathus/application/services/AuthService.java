@@ -98,6 +98,7 @@ public class AuthService {
 
         if (!resultado.sucesso()) {
             throw new BadRequestException(resultado.mensagem());
+
         }
 
         RegisterRequestDTO dados = cadastrosPendentes.get(email);

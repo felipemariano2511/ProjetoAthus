@@ -40,18 +40,22 @@ public class VerificarCadastro {
 
         if (expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
             destruirCodigo();
+          
             return VerificacaoStatus.expirado();
+
         }
 
         if (this.codigoGerado == codigoInformado) {
             this.emailVerificado = true;
             destruirCodigo();
+
             return VerificacaoStatus.sucessoStatus();
         } else {
             tentativasRestantes--;
             if (tentativasRestantes <= 0) {
                 bloquear();
                 destruirCodigo();
+              
                 return VerificacaoStatus.bloqueado(bloqueadoAte);
             }
             return VerificacaoStatus.invalido(tentativasRestantes);
@@ -89,4 +93,5 @@ public class VerificarCadastro {
             return new VerificacaoStatus(false, "Código inválido. Tentativas restantes: " + tentativasRestantes);
         }
     }
+
 }

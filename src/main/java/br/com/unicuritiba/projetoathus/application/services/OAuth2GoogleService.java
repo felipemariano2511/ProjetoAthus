@@ -66,6 +66,7 @@ public class OAuth2GoogleService {
 
         } else {
 
+
             String novoAccessToken = tokenService.gerarAccessToken((String) usuarioInfo.get("email"));
             String novoRefreshToken = tokenService.gerarRefreshToken((String) usuarioInfo.get("email"));
 
