@@ -16,17 +16,20 @@ public class CategoriasController {
 
     @GetMapping
     public ResponseEntity<List<Categorias>> getCategorias() {
-        return ResponseEntity.ok(service.getAllCategorias());
+        List<Categorias> categorias = service.getAllCategorias();
+        return ResponseEntity.ok(categorias);
     }
 
     @PostMapping
     public ResponseEntity<Categorias> postCategoria(@RequestBody Categorias categoria) {
-        return ResponseEntity.ok(service.saveCategoria(categoria));
+        Categorias categoriaSalva = service.saveCategoria(categoria);
+        return ResponseEntity.ok(categoriaSalva);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Categorias> putCategoria(@PathVariable Long id, @RequestBody Categorias categoria) {
-        return ResponseEntity.ok(service.updateCategoria(id, categoria));
+        Categorias categoriaAtualizada = service.updateCategoria(id, categoria);
+        return ResponseEntity.ok(categoriaAtualizada);
     }
 
     @DeleteMapping("/{id}")
