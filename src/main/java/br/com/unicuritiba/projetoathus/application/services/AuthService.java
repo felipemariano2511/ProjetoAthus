@@ -5,12 +5,11 @@ import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
 import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
 import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
-import br.com.unicuritiba.projetoathus.infrastructure.exceptions.*;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,9 +25,9 @@ public class AuthService {
     private final Map<String, VerificarCadastro> verificacoes = new ConcurrentHashMap<>();
     private final Map<String, RegisterRequestDTO> cadastrosPendentes = new ConcurrentHashMap<>();
 
-    public ResponseEntity<?> iniciarCadastro(RegisterRequestDTO body) {
+    public String iniciarCadastro(RegisterRequestDTO body) {
         if (repository.findByEmail(body.email()).isPresent()) {
-            throw new ConflictException("Não é possível cadastrar o usuário, pois o e-mail já está em uso.");
+            throw new IllegalArgumentException("E-mail já está em uso.");
         }
 
         VerificarCadastro verificador = verificacoes.getOrDefault(body.email(), new VerificarCadastro());
@@ -43,62 +42,53 @@ public class AuthService {
                 String.format("Olá, %s! Seu código de verificação é: %d", body.nome(), codigo)
         );
 
+        return "Código de verificação enviado para o e-mail.";
+    }
+
+    public ResponseEntity<Object> login(LoginRequestDTO body) {
+        Usuario usuario = repository.findByEmail(body.email())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        if (!passwordEncoder.matches(body.senha(), usuario.getSenha())) {
+            return ResponseEntity.badRequest().body("Senha inválida.");
+        }
+
+        String accessToken = tokenService.gerarToken(usuario.getEmail());
+        String refreshToken = tokenService.gerarRefreshToken(usuario.getEmail());
+
         return ResponseEntity.ok(Map.of(
-                "message",   "Código de verificação enviado para o e-mail."
+                "accessToken", accessToken,
+                "refreshToken", refreshToken
         ));
     }
 
-    public ResponseEntity<?> login(LoginRequestDTO body) {
-
-        return repository.findByEmail(body.email())
-                .map(usuario -> {
-                    if (!passwordEncoder.matches(body.senha(), usuario.getSenha())) {
-                        throw new BadRequestException("Senha incorreta!");
-                    }
-
-                    String accessToken = tokenService.gerarAccessToken(usuario.getEmail());
-                    String refreshToken = tokenService.gerarRefreshToken(usuario.getEmail());
-
-                    return ResponseEntity.ok(Map.of(
-                            "accessToken", accessToken,
-                            "refreshToken", refreshToken
-                    ));
-                })
-                .orElseThrow(() -> new NotFoundException("Usuário não encontrado."));
-    }
-
     public ResponseEntity<?> refresh(String refreshToken) {
-        DecodedJWT jwt = tokenService.validarToken(refreshToken);
+        String email = tokenService.validarToken(refreshToken);
 
-        if (jwt == null) {
-            throw new BadRequestException("RefreshToken inválido!");
+        if (email == null) {
+            return ResponseEntity.badRequest().body("Refresh token inválido.");
         }
 
-        if (jwt.getClaim("type").asString().equals("refresh-token")) {
+        String novoAccessToken = tokenService.gerarToken(email);
+        String novoRefreshToken = tokenService.gerarRefreshToken(email);
 
-            String novoAccessToken = tokenService.gerarAccessToken(jwt.getSubject());
-            String novoRefreshToken = tokenService.gerarRefreshToken(jwt.getSubject());
-
-            return ResponseEntity.ok(Map.of(
-                    "accessToken", novoAccessToken,
-                    "refreshToken", novoRefreshToken
-            ));
-        } else{
-            throw new BuisnessException("Não é possível recarregar o token utilizando um accessToken!");
-        }
+        return ResponseEntity.ok(Map.of(
+                "accessToken", novoAccessToken,
+                "refreshToken", novoRefreshToken
+        ));
     }
 
     public ResponseEntity<?> validarCodigo(String email, int codigo) {
         VerificarCadastro verificador = verificacoes.get(email);
         if (verificador == null) {
-            throw new BuisnessException("Nenhum código foi gerado para esse e-mail.");
+            throw new IllegalStateException("Nenhum código foi gerado para esse e-mail.");
         }
 
-        var resultado = verificador.verificarCodigo(codigo);
-
-        if (!resultado.sucesso()) {
-            throw new BadRequestException(resultado.mensagem());
-
+        if (!verificador.verificarCodigo(codigo)) {
+            if (verificador.getTentativasRestantes() <= 0) {
+                throw new IllegalStateException("Tentativas excedidas. Aguarde 60 minutos.");
+            }
+            throw new IllegalArgumentException("Código inválido. Tentativas restantes: " + verificador.getTentativasRestantes());
         }
 
         RegisterRequestDTO dados = cadastrosPendentes.get(email);
@@ -123,7 +113,7 @@ public class AuthService {
 
         emailService.enviarEmail(email, "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
 
-        String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail());
+        String novoAccessToken = tokenService.gerarToken(usuario.getEmail());
         String novoRefreshToken = tokenService.gerarRefreshToken(email);
 
         return ResponseEntity.ok(Map.of(

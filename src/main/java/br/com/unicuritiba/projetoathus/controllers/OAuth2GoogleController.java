@@ -14,7 +14,7 @@ import java.util.Map;
 public class OAuth2GoogleController {
 
     @Autowired
-    private OAuth2GoogleService auth2GoogleService;
+    OAuth2GoogleService auth2GoogleService;
 
     @PostMapping("/autenticado")
     public ResponseEntity<?> autenticarComGoogle(@RequestBody Map<String, String> body) {
