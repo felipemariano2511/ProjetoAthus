@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class GlobalExceptionsHandler {
     public ResponseEntity<ErrorResponse> unauthorized(UnauthorizedException exception, HttpServletRequest request) {
         return response(exception.getMessage(), request, HttpStatus.UNAUTHORIZED, LocalDateTime.now());
     }
+
     @ExceptionHandler(UnprocessableEntityException.class)
     public ResponseEntity<ErrorResponse> unauthorized(UnprocessableEntityException exception, HttpServletRequest request) {
         return response(exception.getMessage(), request, HttpStatus.UNPROCESSABLE_ENTITY, LocalDateTime.now());
