@@ -8,6 +8,7 @@
 		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	<packaging>war</packaging>
 	<groupId>br.com.unicuritiba</groupId>
 	<artifactId>ProjetoAthus</artifactId>
 	<version>0.0.1</version>
