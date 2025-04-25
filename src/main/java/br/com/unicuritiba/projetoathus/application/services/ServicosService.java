@@ -4,13 +4,11 @@ import br.com.unicuritiba.projetoathus.domain.models.Servicos;
 import br.com.unicuritiba.projetoathus.domain.repositories.ServicosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ServicosService {
-
     @Autowired
     private ServicosRepository repository;
 

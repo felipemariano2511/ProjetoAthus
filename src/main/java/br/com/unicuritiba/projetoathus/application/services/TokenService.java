@@ -19,15 +19,12 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    private DecodedJWT jwt;
-
     public String gerarAccessToken(String email) throws IllegalStateException{
 
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.create()
                     .withIssuer("login-auth-api")
-
                     .withSubject(email)
                     .withClaim("type", "access-token")
                     .withExpiresAt(this.gerarDataExpiracao())
