@@ -7,6 +7,7 @@ import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NoContentExcept
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnauthorizedException;
 import br.com.unicuritiba.projetoathus.mappers.UsuarioMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,10 +17,14 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
+    @Autowired
     private UsuarioRepository repository;
-    private PasswordEncoder passwordEncoder;
-    private UsuarioMapper mapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UsuarioMapper mapper;
 
     public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() throws NoContentException {
         return ResponseEntity.ok(repository.findAll()
