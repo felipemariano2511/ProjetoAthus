@@ -3,12 +3,9 @@ package br.com.unicuritiba.projetoathus.controllers;
 import br.com.unicuritiba.projetoathus.application.services.AuthService;
 import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
 import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 import java.util.Map;
 
 @RestController
@@ -20,21 +17,37 @@ public class AuthController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<?> cadastrar(@RequestBody RegisterRequestDTO body) {
-        return ResponseEntity.ok(authService.iniciarCadastro(body));
+        try {
+            return ResponseEntity.ok(authService.iniciarCadastro(body));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO body) {
-        return ResponseEntity.ok(authService.login(body));
+        try {
+            return ResponseEntity.ok(authService.login(body));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> body) {
-        return ResponseEntity.ok(authService.refresh(body.get("refreshToken")));
+        try {
+            return ResponseEntity.ok(authService.refresh(body.get("refreshToken")));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/validarcodigo")
     public ResponseEntity<?> validarCodigo(@RequestBody Map<String, String> body) {
-        return ResponseEntity.ok(authService.validarCodigo(body.get("email"), Integer.parseInt(body.get("codigo"))));
+        try {
+            return ResponseEntity.ok(authService.validarCodigo(body.get("email"), Integer.parseInt(body.get("codigo"))));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

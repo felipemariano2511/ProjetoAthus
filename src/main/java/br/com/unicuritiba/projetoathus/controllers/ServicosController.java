@@ -5,7 +5,6 @@ import br.com.unicuritiba.projetoathus.domain.models.Servicos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -17,17 +16,20 @@ public class ServicosController {
 
     @GetMapping
     public ResponseEntity<List<Servicos>> getAllServicos() {
-        return ResponseEntity.ok(service.getAllServicos());
+        List<Servicos> servicos = service.getAllServicos();
+        return ResponseEntity.ok(servicos);
     }
 
     @PostMapping
     public ResponseEntity<Servicos> postServico(@RequestBody Servicos servico) {
-        return ResponseEntity.ok(service.saveServicos(servico));
+        Servicos servicoCadastrado = service.saveServicos(servico);
+        return ResponseEntity.ok(servicoCadastrado);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Servicos> putServico(@PathVariable Long id, @RequestBody Servicos servico) {
-        return ResponseEntity.ok(service.updateServicos(id, servico));
+        Servicos servicoAtualizado = service.updateServicos(id, servico);
+        return ResponseEntity.ok(servicoAtualizado);
     }
 
     @DeleteMapping("/{id}")

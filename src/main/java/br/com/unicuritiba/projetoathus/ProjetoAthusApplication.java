@@ -13,11 +13,9 @@ public class ProjetoAthusApplication extends SpringBootServletInitializer {
 		SpringApplication.run(ProjetoAthusApplication.class, args);
 	}
 
-	@Configuration
-	public static class TomcatConfig extends SpringBootServletInitializer {
-		@Override
-		protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-			return application.sources(ProjetoAthusApplication.class);
-		}
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(ProjetoAthusApplication.class);
 	}
+	
 }
