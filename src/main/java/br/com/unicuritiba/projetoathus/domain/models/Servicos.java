@@ -1,6 +1,5 @@
 package br.com.unicuritiba.projetoathus.domain.models;
 
-import br.com.unicuritiba.projetoathus.domain.models.Categorias;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
