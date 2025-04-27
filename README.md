@@ -27,7 +27,7 @@ O *Athus* visa criar uma comunidade online onde talentos das periferias sejam re
 
 ## Tecnologias Utilizadas 💻
 
-- **Frontend**: React.js, Flutter 📱
+- **Frontend**: React.js, Node.js📱
 - **Backend**: Java, Spring Boot 🔧
 - **Banco de Dados**: MySQL 🗄️
 - **Autenticação**: JWT (JSON Web Tokens) 🔐
