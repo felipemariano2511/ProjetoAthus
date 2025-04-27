@@ -3,7 +3,6 @@ package br.com.unicuritiba.projetoathus.infrastructure.security;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
 import br.com.unicuritiba.projetoathus.application.services.TokenService;
-import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,47 +26,18 @@ public class SecurityFilter extends OncePerRequestFilter {
     UsuarioRepository   usuarioRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        var token = this.recoverToken(request);
+        var login = tokenService.validarToken(token);
 
-        String token = recoverToken(request);
-
-        if (token == null) {
-            filterChain.doFilter(request, response);
-            return;
+        if(login != null) {
+            Usuario usuario = usuarioRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+            var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, authorities);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-
-        try {
-            var login = tokenService.validarToken(token);
-
-            if (login != null) {
-                if ("refresh-token".equals(login.getClaim("type").asString())) {
-                    response.setStatus(422);
-                    response.setContentType("application/json");
-                    response.getWriter().write("{\"error\": \"Não é possível autenticar com refreshToken\"}");
-                    return;
-                }
-
-                if ("access-token".equals(login.getClaim("type").asString())) {
-                    Usuario usuario = usuarioRepository.findByEmail(login.getSubject())
-                            .orElseThrow(() -> new NotFoundException("Usuário não encontrado!"));
-
-                    var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-                    var authentication = new UsernamePasswordAuthenticationToken(usuario, null, authorities);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            }
-
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"Token inválido ou expirado\"}");
-            return;
-        }
-
         filterChain.doFilter(request, response);
     }
-
 
     private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
