@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Map;
 
 @RestController
@@ -14,7 +15,7 @@ import java.util.Map;
 public class OAuth2GoogleController {
 
     @Autowired
-    OAuth2GoogleService auth2GoogleService;
+    private OAuth2GoogleService auth2GoogleService;
 
     @PostMapping("/autenticado")
     public ResponseEntity<?> autenticarComGoogle(@RequestBody Map<String, String> body) {

@@ -2,8 +2,10 @@ package br.com.unicuritiba.projetoathus.application.services;
 
 import br.com.unicuritiba.projetoathus.domain.models.Categorias;
 import br.com.unicuritiba.projetoathus.domain.repositories.CategoriasRepository;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +26,7 @@ public class CategoriasService {
             categoriaAtualizada.setNome(categoria.getNome());
             return repository.saveAndFlush(categoriaAtualizada);
         } else {
-            throw new RuntimeException("Não encontrado categoria com nome " + categoria.getNome());
+            throw new NotFoundException("Não encontrado categoria com nome " + categoria.getNome());
         }
     }
 
