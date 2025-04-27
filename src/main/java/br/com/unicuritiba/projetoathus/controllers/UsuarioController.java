@@ -1,6 +1,7 @@
 package br.com.unicuritiba.projetoathus.controllers;
 
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
+import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
 import br.com.unicuritiba.projetoathus.dto.UsuarioDTO;
 import br.com.unicuritiba.projetoathus.application.services.UsuarioService;
 import br.com.unicuritiba.projetoathus.mappers.UsuarioMapper;
@@ -14,6 +15,9 @@ import java.util.List;
 public class UsuarioController {
 
     @Autowired
+    private UsuarioRepository repository;
+
+    @Autowired
     private UsuarioService service;
 
     @Autowired
@@ -21,21 +25,40 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
-        return ResponseEntity.ok(service.getAllUsuarios().getBody());
+        List<UsuarioDTO> usuarios = service.getAllUsuarios()
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
+
+        return usuarios.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseEntity<?>> getUsuario(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getUsuario(id));
+    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable Long id) {
+        return service.getUsuario(id)
+                .map(mapper::toDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping
-    public ResponseEntity<UsuarioDTO> putUsuario(@RequestBody Usuario usuario) throws Exception {
-        return ResponseEntity.ok(mapper.toDTO(service.putUsuario(usuario).getBody()));
+    public ResponseEntity<UsuarioDTO> putUsuario(@RequestBody Usuario usuario) {
+        try {
+            Usuario atualizado = service.putUsuario(usuario);
+            return ResponseEntity.ok(mapper.toDTO(atualizado));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseEntity<?>> deleteUsuario(@PathVariable Long id) {
-        return ResponseEntity.ok(service.deleteUsuario(id));
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
+        return repository.findById(id)
+                .map(usuario -> {
+                    repository.deleteById(id);
+                    return ResponseEntity.ok().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }
