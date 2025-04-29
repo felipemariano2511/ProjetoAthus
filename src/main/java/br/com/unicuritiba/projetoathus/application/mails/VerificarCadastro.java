@@ -34,8 +34,10 @@ public class VerificarCadastro {
     }
 
     public VerificacaoStatus verificarCodigo(int codigoInformado) {
-        if (estaBloqueado()) {
-            return VerificacaoStatus.bloqueado(bloqueadoAte);
+        if (estaBloqueado() || expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
+            destruirCodigo();
+            this.codigoativo = false;
+            return VerificacaoStatus.expirado();
         }
 
         if (expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
