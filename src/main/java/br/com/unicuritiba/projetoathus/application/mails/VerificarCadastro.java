@@ -1,5 +1,6 @@
 package br.com.unicuritiba.projetoathus.application.mails;
 
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.ConflictException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
 import lombok.Getter;
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class VerificarCadastro {
     private LocalDateTime expiracao;
     private int tentativasRestantes;
     private LocalDateTime bloqueadoAte;
+    private boolean codigoativo = false;
 
     public VerificarCadastro() {
         this.emailVerificado = false;
@@ -29,6 +31,11 @@ public class VerificarCadastro {
         this.codigoGerado = 100000 + new Random().nextInt(900000);
         this.expiracao = LocalDateTime.now().plusMinutes(15);
         this.tentativasRestantes = MAX_TENTATIVAS;
+
+        if (this.codigoativo) {
+            throw new ConflictException("Codigo ja enviado");
+        }
+        this.codigoativo = true;
 
         return this.codigoGerado;
     }
