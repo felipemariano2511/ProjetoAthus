@@ -45,11 +45,11 @@ public class VerificarCadastro {
     }
 
 
-    public boolean verificarCodigo(int codigoInformado) {
+    public VerificacaoStatus verificarCodigo(int codigoInformado) {
         if (estaBloqueado() || expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
             destruirCodigo();
             this.codigoativo = false;
-            return false;
+            return VerificacaoStatus.expirado();
         }
 
         if (expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
