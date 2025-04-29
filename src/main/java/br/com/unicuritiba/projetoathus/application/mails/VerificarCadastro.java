@@ -1,8 +1,6 @@
 package br.com.unicuritiba.projetoathus.application.mails;
 
-import br.com.unicuritiba.projetoathus.infrastructure.exceptions.BuisnessException;
-import br.com.unicuritiba.projetoathus.infrastructure.exceptions.ForbiddenException;
-import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnauthorizedException;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.ConflictException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 @Getter
@@ -32,18 +31,19 @@ public class VerificarCadastro {
 
     public int gerarNovoCodigo() {
         if (estaBloqueado()) {
-            throw new IllegalStateException("Usuário bloqueado até " + bloqueadoAte);
+            throw new UnprocessableEntityException("Usuário bloqueado até " + bloqueadoAte);
         }
 
         this.codigoGerado = 100000 + new Random().nextInt(900000);
         this.expiracao = LocalDateTime.now().plusMinutes(15);
         this.tentativasRestantes = MAX_TENTATIVAS;
         if (this.codigoativo) {
-            throw new ForbiddenException("this works?");
+            throw new ConflictException("this works?");
         }
         this.codigoativo = true;
         return this.codigoGerado;
     }
+
 
     public boolean verificarCodigo(int codigoInformado) {
         if (estaBloqueado() || expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
@@ -52,23 +52,23 @@ public class VerificarCadastro {
             return false;
         }
 
-        if (tentativasRestantes <= 0) {
-            bloquear();
+        if (expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
             destruirCodigo();
-            return false;
+            return VerificacaoStatus.expirado();
         }
 
         if (this.codigoGerado == codigoInformado) {
             this.emailVerificado = true;
             destruirCodigo();
-            return true;
+            return VerificacaoStatus.sucessoStatus();
         } else {
             tentativasRestantes--;
             if (tentativasRestantes <= 0) {
                 bloquear();
                 destruirCodigo();
+                return VerificacaoStatus.bloqueado(bloqueadoAte);
             }
-            return false;
+            return VerificacaoStatus.invalido(tentativasRestantes);
         }
     }
 
@@ -83,5 +83,24 @@ public class VerificarCadastro {
 
     private boolean estaBloqueado() {
         return bloqueadoAte != null && LocalDateTime.now().isBefore(bloqueadoAte);
+    }
+
+    public record VerificacaoStatus(boolean sucesso, String mensagem) {
+        public static VerificacaoStatus sucessoStatus() {
+            return new VerificacaoStatus(true, "Código verificado com sucesso!");
+        }
+
+        public static VerificacaoStatus bloqueado(LocalDateTime ate) {
+            long minutosRestantes = ChronoUnit.MINUTES.between(LocalDateTime.now(), ate);
+            return new VerificacaoStatus(false, "Muitas solicitações. Aguarde " + minutosRestantes + " minutos.");
+        }
+
+        public static VerificacaoStatus expirado() {
+            return new VerificacaoStatus(false, "O código expirou. Solicite um novo.");
+        }
+
+        public static VerificacaoStatus invalido(int tentativasRestantes) {
+            return new VerificacaoStatus(false, "Código inválido. Tentativas restantes: " + tentativasRestantes);
+        }
     }
 }

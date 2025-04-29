@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "820d6685-7f54-4438-955c-b5d7c71b29a3",
+		"_postman_id": "19f07446-7ef0-4967-be7b-efc042c8670d",
 		"name": "ProjetoAthus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "43766876",
-		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-820d6685-7f54-4438-955c-b5d7c71b29a3?action=share&source=collection_link&creator=43766876"
+		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-19f07446-7ef0-4967-be7b-efc042c8670d?action=share&source=collection_link&creator=43766876"
 	},
 	"item": [
 		{
@@ -96,7 +96,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brazil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Josias Fonseca da Silva\",\r\n    \"numero\" : 83,\r\n    \"apartamento\" : \"\",\r\n    \"logradouro\" : \"Casa\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
+							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"123\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brasil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Josias Fonseca da Silva\",\r\n    \"numero\" : 83,\r\n    \"apartamento\" : 0,\r\n    \"logradouro\" : \"Casa\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
