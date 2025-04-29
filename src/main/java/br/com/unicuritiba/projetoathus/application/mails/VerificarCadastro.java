@@ -1,7 +1,14 @@
 package br.com.unicuritiba.projetoathus.application.mails;
 
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.ConflictException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
@@ -16,6 +23,7 @@ public class VerificarCadastro {
     private LocalDateTime expiracao;
     private int tentativasRestantes;
     private LocalDateTime bloqueadoAte;
+    private boolean codigoativo = false;
 
     public VerificarCadastro() {
         this.emailVerificado = false;
@@ -29,13 +37,19 @@ public class VerificarCadastro {
         this.codigoGerado = 100000 + new Random().nextInt(900000);
         this.expiracao = LocalDateTime.now().plusMinutes(15);
         this.tentativasRestantes = MAX_TENTATIVAS;
-
+        if (this.codigoativo) {
+            throw new ConflictException("this works?");
+        }
+        this.codigoativo = true;
         return this.codigoGerado;
     }
 
-    public VerificacaoStatus verificarCodigo(int codigoInformado) {
-        if (estaBloqueado()) {
-            return VerificacaoStatus.bloqueado(bloqueadoAte);
+
+    public boolean verificarCodigo(int codigoInformado) {
+        if (estaBloqueado() || expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
+            destruirCodigo();
+            this.codigoativo = false;
+            return false;
         }
 
         if (expiracao == null || LocalDateTime.now().isAfter(expiracao)) {

@@ -35,6 +35,7 @@ public class GlobalExceptionsHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, HttpServletRequest request) {
         return buildErrorResponse(ex, HttpStatus.BAD_REQUEST, request.getRequestURI());
+
     }
 
     @ExceptionHandler(NoContentException.class)
