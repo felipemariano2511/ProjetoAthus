@@ -34,6 +34,7 @@ public class UsuarioService {
     }
 
     public ResponseEntity<?> getUsuario(Long id) throws NotFoundException{
+        //tem que fazer algo aqui. 
         return ResponseEntity.ok(repository.findById(id)
                 .stream()
                 .map(mapper::toDTO));

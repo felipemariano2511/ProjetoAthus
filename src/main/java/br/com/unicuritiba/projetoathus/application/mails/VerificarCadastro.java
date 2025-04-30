@@ -27,14 +27,14 @@ public class VerificarCadastro {
         if (estaBloqueado()) {
             throw new UnprocessableEntityException("Usuário bloqueado até " + bloqueadoAte);
         }
-
+        if (this.codigoativo) {
+            throw new ConflictException("Codigo ja enviado");
+        }
         this.codigoGerado = 100000 + new Random().nextInt(900000);
         this.expiracao = LocalDateTime.now().plusMinutes(15);
         this.tentativasRestantes = MAX_TENTATIVAS;
 
-        if (this.codigoativo) {
-            throw new ConflictException("Codigo ja enviado");
-        }
+
         this.codigoativo = true;
 
         return this.codigoGerado;
@@ -49,6 +49,7 @@ public class VerificarCadastro {
 
         if (expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
             destruirCodigo();
+            this.codigoativo = false;
             return VerificacaoStatus.expirado();
         }
 
@@ -61,6 +62,7 @@ public class VerificarCadastro {
             if (tentativasRestantes <= 0) {
                 bloquear();
                 destruirCodigo();
+                this.codigoativo = false;
                 return VerificacaoStatus.bloqueado(bloqueadoAte);
             }
             return VerificacaoStatus.invalido(tentativasRestantes);
