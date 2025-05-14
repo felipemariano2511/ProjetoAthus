@@ -50,6 +50,8 @@ public class UsuarioService {
             usuarioLogado.setSenha(passwordEncoder.encode(usuario.getSenha()));
         }
 
+        usuarioLogado.setNome(usuario.getNome());
+        usuarioLogado.setTelefone(usuario.getTelefone());
         usuarioLogado.setCpf(usuario.getCpf());
         usuarioLogado.setDataNascimento(usuario.getDataNascimento());
         usuarioLogado.setPais(usuario.getPais());

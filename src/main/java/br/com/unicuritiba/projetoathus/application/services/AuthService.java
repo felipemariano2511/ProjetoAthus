@@ -40,7 +40,7 @@ public class AuthService {
         emailService.enviarEmail(
                 body.email(),
                 "Verificação de e-mail",
-                String.format("Olá, %s! Seu código de verificação é: %d", body.nome(), codigo)
+                String.format("Olá, %s! Seu código de verificação é: %d", body.nomeCompleto(), codigo)
         );
 
         return ResponseEntity.ok(Map.of(
@@ -77,11 +77,9 @@ public class AuthService {
         if (jwt.getClaim("type").asString().equals("refresh-token")) {
 
             String novoAccessToken = tokenService.gerarAccessToken(jwt.getSubject());
-            String novoRefreshToken = tokenService.gerarRefreshToken(jwt.getSubject());
 
             return ResponseEntity.ok(Map.of(
-                    "accessToken", novoAccessToken,
-                    "refreshToken", novoRefreshToken
+                    "accessToken", novoAccessToken
             ));
         } else{
             throw new BuisnessException("Não é possível recarregar o token utilizando um accessToken!");
@@ -106,7 +104,7 @@ public class AuthService {
         }
 
         Usuario usuario = new Usuario();
-        usuario.setNome(dados.nome());
+        usuario.setNomeCompleto(dados.nomeCompleto());
         usuario.setEmail(dados.email());
         usuario.setSenha(passwordEncoder.encode(dados.senha()));
         usuario.setNumero(0);
