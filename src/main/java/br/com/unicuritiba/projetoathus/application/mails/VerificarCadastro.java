@@ -17,6 +17,7 @@ public class VerificarCadastro {
     private LocalDateTime expiracao;
     private int tentativasRestantes;
     private LocalDateTime bloqueadoAte;
+    private boolean desbloqueado;
     private boolean codigoativo = false;
 
     public VerificarCadastro() {
@@ -25,26 +26,27 @@ public class VerificarCadastro {
 
     public int gerarNovoCodigo() {
         if (estaBloqueado()) {
-            throw new UnprocessableEntityException("Usuário bloqueado até " + bloqueadoAte);
+            int minutosRestantes = (int) ChronoUnit.MINUTES.between(LocalDateTime.now(), bloqueadoAte);
+            throw new UnprocessableEntityException(String.format("Usuário bloqueado. Aguarde %s minutos.", minutosRestantes));
+        }else {
+            desbloquear();
         }
+
         if (this.codigoativo) {
-            throw new ConflictException("Codigo ja enviado");
+            throw new ConflictException("Código já enviado");
         }
         this.codigoGerado = 100000 + new Random().nextInt(900000);
         this.expiracao = LocalDateTime.now().plusMinutes(15);
         this.tentativasRestantes = MAX_TENTATIVAS;
-
-
         this.codigoativo = true;
-
         return this.codigoGerado;
     }
 
     public VerificacaoStatus verificarCodigo(int codigoInformado) {
-        if (estaBloqueado() || expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
+        if (estaBloqueado()) {
             destruirCodigo();
             this.codigoativo = false;
-            return VerificacaoStatus.expirado();
+            return VerificacaoStatus.bloqueado(bloqueadoAte);
         }
 
         if (expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
@@ -75,8 +77,11 @@ public class VerificarCadastro {
     }
 
     private void bloquear() {
-        this.bloqueadoAte = LocalDateTime.now().plusMinutes(60);
+        this.desbloqueado = false;
+        this.bloqueadoAte = LocalDateTime.now().plusMinutes(30);
     }
+
+    private void desbloquear() {this.desbloqueado = true;}
 
     private boolean estaBloqueado() {
         return bloqueadoAte != null && LocalDateTime.now().isBefore(bloqueadoAte);
@@ -88,8 +93,8 @@ public class VerificarCadastro {
         }
 
         public static VerificacaoStatus bloqueado(LocalDateTime ate) {
-            long minutosRestantes = ChronoUnit.MINUTES.between(LocalDateTime.now(), ate);
-            return new VerificacaoStatus(false, "Muitas solicitações. Aguarde " + minutosRestantes + " minutos.");
+            int minutosRestantes = (int) ChronoUnit.MINUTES.between(LocalDateTime.now(), ate);
+            return new VerificacaoStatus(false, String.format("Usuário bloqueado. Aguarde %s minutos.", minutosRestantes));
         }
 
         public static VerificacaoStatus expirado() {
