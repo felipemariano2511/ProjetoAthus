@@ -38,18 +38,18 @@ public class SecurityFilter extends OncePerRequestFilter {
         }
 
         try {
-            var login = tokenService.validarToken(token);
+            var tokenValidado = tokenService.validarToken(token);
 
-            if (login != null) {
-                if ("refresh-token".equals(login.getClaim("type").asString())) {
+            if (tokenValidado != null) {
+                if ("refresh-token".equals(tokenValidado.getClaim("type").asString())) {
                     response.setStatus(422);
                     response.setContentType("application/json");
                     response.getWriter().write("{\"error\": \"Não é possível autenticar com refreshToken\"}");
                     return;
                 }
 
-                if ("access-token".equals(login.getClaim("type").asString())) {
-                    Usuario usuario = usuarioRepository.findByEmail(login.getSubject())
+                if ("access-token".equals(tokenValidado.getClaim("type").asString())) {
+                    Usuario usuario = usuarioRepository.findByEmail(tokenValidado.getSubject())
                             .orElseThrow(() -> new NotFoundException("Usuário não encontrado!"));
 
                     var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
