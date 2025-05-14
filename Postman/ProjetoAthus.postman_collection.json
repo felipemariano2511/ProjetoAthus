@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "820d6685-7f54-4438-955c-b5d7c71b29a3",
+		"name": "ProjetoAthus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43766876",
+		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-820d6685-7f54-4438-955c-b5d7c71b29a3?action=share&source=collection_link&creator=43766876"
+	},
+	"item": [
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "BuscarTodosUsuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6Impvc2lhc0BnbWFpbC5jb20iLCJleHAiOjE3NDM5OTY2ODh9.3TpXHZnCtiX3bHt49Gd51I127WXVY876yOUa31N8LOQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6Impvc2lhc0BnbWFpbC5jb20iLCJleHAiOjE3NDQwNjE4MTB9.hozCkjzudH-eAt0MtAk63WmlGzgXHLKfKjmAEjHpPO8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AtualizarUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"123\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brazil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Lá Ele 24\",\r\n    \"numero\" : 24,\r\n    \"apartamento\" : \"\",\r\n    \"logradouro\" : \"Casa do Caralho\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/usuarios/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletarUsario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"email\" : \"marcelo@gmail.com\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"123\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brazil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Lá Ele 69\",\r\n    \"numero\" : \"69\",\r\n    \"apartamento\" : \"\",\r\n    \"logradouro\" : \"Casa do Caralho\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/usuarios/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login / Cadastrar",
+			"item": [
+				{
+					"name": "CadastrarUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\" : \"Josias da Silva\",\r\n    \"email\" : \"josias@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/cadastrar",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"josias@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
