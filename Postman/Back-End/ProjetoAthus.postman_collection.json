@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "19f07446-7ef0-4967-be7b-efc042c8670d",
+		"_postman_id": "f3324f99-67a1-40e7-8bc2-2f139243ab9d",
 		"name": "ProjetoAthus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "43766876",
-		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-19f07446-7ef0-4967-be7b-efc042c8670d?action=share&source=collection_link&creator=43766876"
+		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-f3324f99-67a1-40e7-8bc2-2f139243ab9d?action=share&source=collection_link&creator=43766876"
 	},
 	"item": [
 		{
@@ -166,7 +166,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"raw": "{\r\n    \"nomeCompleto\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
