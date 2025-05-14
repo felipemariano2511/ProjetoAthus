@@ -1,4 +1,4 @@
 package br.com.unicuritiba.projetoathus.dto;
 
-public record RegisterRequestDTO(String nome, String email, String senha) {
+public record RegisterRequestDTO(String nomeCompleto, String email, String senha) {
 }

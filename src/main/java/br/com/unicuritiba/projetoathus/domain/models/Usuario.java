@@ -21,8 +21,10 @@ public class Usuario {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome_completo", nullable = false)
     @NotNull(message = "O nome não pode ser nulo")
+    private String nomeCompleto;
+
     private String nome;
 
     @Column(name = "email", nullable = false)
