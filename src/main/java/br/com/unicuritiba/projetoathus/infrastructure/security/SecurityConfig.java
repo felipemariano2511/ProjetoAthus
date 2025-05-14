@@ -22,6 +22,9 @@ public class SecurityConfig {
     private CustomUserDetailsService userDetailsService;
 
     @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @Autowired
     SecurityFilter securityFilter;
 
     @Bean
@@ -35,10 +38,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/cadastrar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/validarcodigo").permitAll()
                         .requestMatchers(HttpMethod.POST, "/oauth2/google/autenticado").permitAll()
-
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                );
         return http.build();
     }
 
