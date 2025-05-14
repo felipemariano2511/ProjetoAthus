@@ -42,12 +42,11 @@ public class TokenService {
                     .withIssuer("login-auth-api")
                     .withSubject(email)
                     .withClaim("type", "refresh-token")
-                    .withExpiresAt(LocalDateTime.now().plusMonths(3).toInstant(ZoneOffset.of("-3")))
+                    .withExpiresAt(LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-3")))
                     .sign(algorithm);
-
     }
 
     private Instant gerarDataExpiracao() {
-        return LocalDateTime.now().plusHours(24).toInstant(ZoneOffset.of("-3"));
+        return LocalDateTime.now().plusMinutes(5).toInstant(ZoneOffset.of("-3"));
     }
 }

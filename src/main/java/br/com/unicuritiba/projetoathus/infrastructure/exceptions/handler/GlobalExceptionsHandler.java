@@ -1,12 +1,14 @@
 package br.com.unicuritiba.projetoathus.infrastructure.exceptions.handler;
 
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.*;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.*;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 @RestControllerAdvice
@@ -50,6 +52,18 @@ public class GlobalExceptionsHandler {
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ErrorResponse> handleConflictException(ConflictException ex, HttpServletRequest request) {
         return buildErrorResponse(ex, HttpStatus.CONFLICT, request.getRequestURI());
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<Object> handleTokenExpiredException(TokenExpiredException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.UNAUTHORIZED.value());
+        body.put("error", "Unauthorized");
+        body.put("message", "Token expirado.");
+        body.put("path", "/auth/refresh");
+
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)
