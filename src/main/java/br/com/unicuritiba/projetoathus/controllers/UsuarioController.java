@@ -6,6 +6,7 @@ import br.com.unicuritiba.projetoathus.application.services.UsuarioService;
 import br.com.unicuritiba.projetoathus.mappers.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
