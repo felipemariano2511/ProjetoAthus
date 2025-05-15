@@ -56,8 +56,8 @@ public class OAuth2GoogleService {
             usuarioRepository.save(usuario);
             emailService.enviarEmail((String) usuarioInfo.get("email"), "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
 
-            String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail());
-            String novoRefreshToken = tokenService.gerarRefreshToken(usuario.getEmail());
+            String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail(), usuario.getNivel());
+            String novoRefreshToken = tokenService.gerarRefreshToken(usuario.getEmail(), usuario.getNivel());
 
             return ResponseEntity.ok(Map.of(
                     "accessToken", novoAccessToken,
@@ -66,8 +66,8 @@ public class OAuth2GoogleService {
 
         } else {
 
-            String novoAccessToken = tokenService.gerarAccessToken((String) usuarioInfo.get("email"));
-            String novoRefreshToken = tokenService.gerarRefreshToken((String) usuarioInfo.get("email"));
+            String novoAccessToken = tokenService.gerarAccessToken((String) usuarioInfo.get("email"), usuarioOptional.get().getNivel());
+            String novoRefreshToken = tokenService.gerarRefreshToken((String) usuarioInfo.get("email"), usuarioOptional.get().getNivel());
 
             return ResponseEntity.ok(Map.of(
                     "accessToken", novoAccessToken,

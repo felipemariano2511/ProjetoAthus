@@ -56,8 +56,8 @@ public class AuthService {
                         throw new BadRequestException("Senha incorreta!");
                     }
 
-                    String accessToken = tokenService.gerarAccessToken(usuario.getEmail());
-                    String refreshToken = tokenService.gerarRefreshToken(usuario.getEmail());
+                    String accessToken = tokenService.gerarAccessToken(usuario.getEmail(), usuario.getNivel());
+                    String refreshToken = tokenService.gerarRefreshToken(usuario.getEmail(), usuario.getNivel());
 
                     return ResponseEntity.ok(Map.of(
                             "accessToken", accessToken,
@@ -76,7 +76,7 @@ public class AuthService {
 
         if (jwt.getClaim("type").asString().equals("refresh-token")) {
 
-            String novoAccessToken = tokenService.gerarAccessToken(jwt.getSubject());
+            String novoAccessToken = tokenService.gerarAccessToken(jwt.getSubject(), jwt.getClaim("nivel").asInt());
 
             return ResponseEntity.ok(Map.of(
                     "accessToken", novoAccessToken
@@ -120,8 +120,8 @@ public class AuthService {
 
         emailService.enviarEmail(email, "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
 
-        String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail());
-        String novoRefreshToken = tokenService.gerarRefreshToken(email);
+        String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail(), usuario.getNivel());
+        String novoRefreshToken = tokenService.gerarRefreshToken(email, usuario.getNivel());
 
         return ResponseEntity.ok(Map.of(
                 "accessToken", novoAccessToken,
