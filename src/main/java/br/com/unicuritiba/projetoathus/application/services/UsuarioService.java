@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UsuarioService {
@@ -88,6 +89,16 @@ public class UsuarioService {
         }
 
         throw new UnauthorizedException("Usuário não autenticado");
+    }
+
+    public ResponseEntity<?> setAtivoUsuario(Long id, boolean newValue){
+        return repository.findById(id)
+                .map(usuario -> {
+                    usuario.setAtivo(newValue);
+                    repository.save(usuario);
+                    return ResponseEntity.ok(Map.of("message","Atributo ativo atualizado com sucesso"));
+                })
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado como id: " + id));
     }
 
 }

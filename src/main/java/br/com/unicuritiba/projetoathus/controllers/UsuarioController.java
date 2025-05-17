@@ -1,6 +1,7 @@
 package br.com.unicuritiba.projetoathus.controllers;
 
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
+import br.com.unicuritiba.projetoathus.dto.SetAtivoDTO;
 import br.com.unicuritiba.projetoathus.dto.UsuarioDTO;
 import br.com.unicuritiba.projetoathus.application.services.UsuarioService;
 import br.com.unicuritiba.projetoathus.mappers.UsuarioMapper;
@@ -39,4 +40,11 @@ public class UsuarioController {
     public ResponseEntity<ResponseEntity<?>> deleteUsuario(@PathVariable Long id) {
         return ResponseEntity.ok(service.deleteUsuario(id));
     }
+
+    @PreAuthorize("principal.nivel >= 1") // Rota acessivel apenas para usuarios não-comuns
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patchAtivoUsuario(@PathVariable Long id, @RequestBody SetAtivoDTO body){
+        return ResponseEntity.ok(service.setAtivoUsuario(id, body.ativo()));
+    }
+
 }
