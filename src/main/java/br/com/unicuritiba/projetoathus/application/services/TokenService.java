@@ -16,13 +16,14 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String gerarAccessToken(String email) throws IllegalStateException{
+    public String gerarAccessToken(String email, int nivel) throws IllegalStateException{
 
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.create()
                     .withIssuer("login-auth-api")
                     .withSubject(email)
+                    .withClaim("nivel", nivel)
                     .withClaim("type", "access-token")
                     .withExpiresAt(this.gerarDataExpiracao())
                     .sign(algorithm);
@@ -35,12 +36,13 @@ public class TokenService {
                     .verify(token);
     }
 
-    public String gerarRefreshToken(String email) throws IllegalStateException{
+    public String gerarRefreshToken(String email, int nivel) throws IllegalStateException{
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.create()
                     .withIssuer("login-auth-api")
                     .withSubject(email)
+                    .withClaim("nivel", nivel)
                     .withClaim("type", "refresh-token")
                     .withExpiresAt(LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-3")))
                     .sign(algorithm);
