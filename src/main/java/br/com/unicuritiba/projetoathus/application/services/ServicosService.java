@@ -2,7 +2,11 @@ package br.com.unicuritiba.projetoathus.application.services;
 
 import br.com.unicuritiba.projetoathus.domain.models.Servicos;
 import br.com.unicuritiba.projetoathus.domain.repositories.ServicosRepository;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
+import br.com.unicuritiba.projetoathus.mappers.ServicoMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +16,18 @@ public class ServicosService {
     @Autowired
     private ServicosRepository repository;
 
+    @Autowired
+    private ServicoMapper mapper;
+
     public List<Servicos> getAllServicos() {return repository.findAll();}
+
+    public ResponseEntity<?> getServico(Long id) throws NotFoundException{
+
+        return ResponseEntity.ok(repository.findById(id)
+                                .stream()
+                                .map(mapper::toDTO));
+
+    }
 
     public Servicos saveServicos(Servicos servico) {return repository.save(servico);}
 
