@@ -19,6 +19,11 @@ public class ServicosController {
     public ResponseEntity<List<Servicos>> getAllServicos() {
         return ResponseEntity.ok(service.getAllServicos());
     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseEntity<?>> getServico(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getServico(id));
+    }
 
     @PostMapping
     public ResponseEntity<Servicos> postServico(@RequestBody Servicos servico) {
