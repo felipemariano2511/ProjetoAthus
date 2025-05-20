@@ -195,6 +195,50 @@
 			]
 		},
 		{
+			"name": "Servico",
+			"item": [
+				{
+					"name": "BuscarServico",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/servicos/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+
+		},
+		{
 			"name": "Login / Cadastrar",
 			"item": [
 				{
