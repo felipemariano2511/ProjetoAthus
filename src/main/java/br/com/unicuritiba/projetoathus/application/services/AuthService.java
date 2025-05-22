@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -37,14 +39,20 @@ public class AuthService {
         verificacoes.put(body.email(), verificador);
         cadastrosPendentes.put(body.email(), body);
 
-        emailService.enviarEmail(
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("nome", body.nomeCompleto());
+        variaveis.put("codigo", codigo);
+
+        emailService.enviarEmailComTemplate(
                 body.email(),
-                "Verificação de e-mail",
-                String.format("Olá, %s! Seu código de verificação é: %d", body.nomeCompleto(), codigo)
+                "Seu código de verificação - Instituto Athus",
+                "email-codigo-verificacao",
+                variaveis
         );
 
+
         return ResponseEntity.ok(Map.of(
-                "message",   "Código de verificação enviado para o e-mail."
+                "message",   String.format("Código de verificação enviado para o e-mail: %s", body.email())
         ));
     }
 
@@ -105,6 +113,7 @@ public class AuthService {
 
         Usuario usuario = new Usuario();
         usuario.setNomeCompleto(dados.nomeCompleto());
+        usuario.setNome(dados.nomeCompleto());
         usuario.setEmail(dados.email());
         usuario.setSenha(passwordEncoder.encode(dados.senha()));
         usuario.setNumero(0);
@@ -118,7 +127,16 @@ public class AuthService {
         verificacoes.remove(email);
         cadastrosPendentes.remove(email);
 
-        emailService.enviarEmail(email, "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("nome", usuario.getNomeCompleto());
+        variaveis.put("email", usuario.getEmail());
+
+        emailService.enviarEmailComTemplate(
+                usuario.getEmail(),
+                "Cadastro realizado com sucesso",
+                "email-conta-criada",
+                variaveis
+        );
 
         String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail(), usuario.getNivel());
         String novoRefreshToken = tokenService.gerarRefreshToken(email, usuario.getNivel());

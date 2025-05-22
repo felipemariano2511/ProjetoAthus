@@ -2,32 +2,50 @@ package br.com.unicuritiba.projetoathus.application.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import java.util.Map;
+import org.springframework.core.io.ClassPathResource;
 
 @Service
 public class EmailService {
+
     @Autowired
-    private JavaMailSender javaMailSender;
+    private JavaMailSender mailSender;
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     @Value("${spring.mail.username}")
     private String remetente;
 
-    public String enviarEmail(String destinatario, String assunto, String mensagem) {
+    public void enviarEmailComTemplate(String destinatario, String assunto, String templateNome, Map<String, Object> variaveis) {
         try {
-            SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-            simpleMailMessage.setFrom(remetente);
-            simpleMailMessage.setTo(destinatario);
-            simpleMailMessage.setSubject(assunto);
-            simpleMailMessage.setText(mensagem);
+            MimeMessage mensagem = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensagem, true, "UTF-8");
 
-            javaMailSender.send(simpleMailMessage);
+            Context context = new Context();
+            context.setVariables(variaveis);
 
-            return "Email enviado!";
+            String html = templateEngine.process(templateNome, context);
 
-        }catch (Exception e) {
-            return "Erro ao tentar enviar email " + e.getLocalizedMessage();
+            helper.setFrom(remetente);
+            helper.setTo(destinatario);
+            helper.setSubject(assunto);
+            helper.setText(html, true);
+
+            ClassPathResource imagem = new ClassPathResource("images/logo_Athus.png");
+            helper.addInline("logoAthus", imagem);
+
+            mailSender.send(mensagem);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao enviar e-mail: " + e.getMessage(), e);
         }
     }
 }
+

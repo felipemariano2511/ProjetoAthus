@@ -7,10 +7,7 @@ import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class OAuth2GoogleService {
@@ -42,6 +39,7 @@ public class OAuth2GoogleService {
 
             Usuario usuario = new Usuario();
 
+            usuario.setNomeCompleto((String) usuarioInfo.get("name"));
             usuario.setNome((String) usuarioInfo.get("name"));
             usuario.setEmail((String) usuarioInfo.get("email"));
             usuario.setSenha(passwordEncoder.encode(senhaRandom()));
@@ -54,8 +52,16 @@ public class OAuth2GoogleService {
             usuario.setBanido(false);
 
             usuarioRepository.save(usuario);
-            emailService.enviarEmail((String) usuarioInfo.get("email"), "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
 
+            Map<String, Object> variaveis = new HashMap<>();
+            variaveis.put("nome", usuario.getNomeCompleto());
+            variaveis.put("email", usuario.getEmail());
+            emailService.enviarEmailComTemplate(
+                    usuario.getEmail(),
+                    "Cadastro realizado com sucesso",
+                    "email-conta-criada",
+                    variaveis
+            );
             String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail(), usuario.getNivel());
             String novoRefreshToken = tokenService.gerarRefreshToken(usuario.getEmail(), usuario.getNivel());
 
