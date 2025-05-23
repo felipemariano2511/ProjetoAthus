@@ -2,7 +2,7 @@ package br.com.unicuritiba.projetoathus.application.services;
 
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
-import br.com.unicuritiba.projetoathus.dto.UsuarioDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.UsuarioDTO;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NoContentException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnauthorizedException;
@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioMapper mapper;
 
+    @Autowired
+    private UserImageUploadService imageUploadService;
+
     public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() throws NoContentException {
         return ResponseEntity.ok(repository.findAll()
                 .stream()
@@ -35,20 +40,22 @@ public class UsuarioService {
     }
 
     public ResponseEntity<?> getUsuario(Long id) throws NotFoundException{
-        //tem que fazer algo aqui. 
         return ResponseEntity.ok(repository.findById(id)
                 .stream()
                 .map(mapper::toDTO));
     }
 
-    public ResponseEntity<Usuario> putUsuario(Usuario usuario) throws NotFoundException {
+    public ResponseEntity<Usuario> putUsuario(MultipartFile imagem, Usuario usuario) throws NotFoundException {
         String email = getEmailUsuarioLogado();
 
-        Usuario usuarioLogado = repository.findByEmail(email).orElseThrow(() ->
-                new NotFoundException("Usuário não encontrado no banco de dados"));
+        Usuario usuarioLogado = repository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado no banco de dados"));
 
-        if (usuario.getSenha() != null && !usuario.getSenha().isBlank()) {
-            usuarioLogado.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        if (!imagem.isEmpty()) {
+            imageUploadService.upload(imagem);
+
+            String caminhoImagem = "storage/imagens/usuarios/" + imagem.getOriginalFilename();
+            usuarioLogado.setImagemPerfil(caminhoImagem);
         }
 
         usuarioLogado.setNome(usuario.getNome());
@@ -63,12 +70,14 @@ public class UsuarioService {
         usuarioLogado.setNumero(usuario.getNumero());
         usuarioLogado.setApartamento(usuario.getApartamento());
         usuarioLogado.setLogradouro(usuario.getLogradouro());
-        usuarioLogado.setImagemPerfil(usuario.getImagemPerfil());
+        usuarioLogado.setNivel(usuario.getNivel());
+        usuarioLogado.setPrestadorServico(usuario.isPrestadorServico());
 
         repository.saveAndFlush(usuarioLogado);
 
         return ResponseEntity.ok(usuarioLogado);
     }
+
 
     public ResponseEntity<?> deleteUsuario(Long id) {
         return repository.findById(id)
