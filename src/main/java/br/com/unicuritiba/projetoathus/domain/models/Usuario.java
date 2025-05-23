@@ -1,15 +1,11 @@
 package br.com.unicuritiba.projetoathus.domain.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -81,5 +77,8 @@ public class Usuario {
 
     @Column(name = "banido")
     private boolean banido;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<PrestacaoServico> prestacaoServicos;
 
 }
