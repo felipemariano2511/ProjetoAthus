@@ -1,4 +1,4 @@
-package br.com.unicuritiba.projetoathus.application.mails;
+package br.com.unicuritiba.projetoathus.infrastructure.mails;
 
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.ConflictException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
