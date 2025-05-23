@@ -1,10 +1,10 @@
 package br.com.unicuritiba.projetoathus.application.services;
 
-import br.com.unicuritiba.projetoathus.application.mails.VerificarCadastro;
+import br.com.unicuritiba.projetoathus.infrastructure.mails.VerificarCadastro;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
-import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
-import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.LoginRequestDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.RegisterRequestDTO;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.*;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
@@ -118,7 +118,7 @@ public class AuthService {
         usuario.setSenha(passwordEncoder.encode(dados.senha()));
         usuario.setNumero(0);
         usuario.setApartamento(0);
-        usuario.setImagemPerfil("../images/usuario.png");
+        usuario.setImagemPerfil("storage/imagens/usuarios/usuario.png");
         usuario.setNivel((short) 0);
         usuario.setAtivo(true);
         usuario.setBanido(false);
