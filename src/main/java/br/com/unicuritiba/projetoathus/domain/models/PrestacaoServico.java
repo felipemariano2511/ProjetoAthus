@@ -27,8 +27,7 @@ public class PrestacaoServico {
     @JoinColumn(name ="id_servico" , nullable = false)
     private Servicos servico;
 
-    @Column
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String descricaoCompleta;
 
     @Column
