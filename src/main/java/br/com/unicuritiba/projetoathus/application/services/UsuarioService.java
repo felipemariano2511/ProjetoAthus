@@ -101,4 +101,14 @@ public class UsuarioService {
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado como id: " + id));
     }
 
+    public ResponseEntity<?> setNivelUsuario(Long id, Short newValue){
+        return repository.findById(id)
+                .map(usuario -> {
+                    usuario.setNivel(newValue);
+                    repository.save(usuario);
+                    return ResponseEntity.ok(Map.of("message","Atributo nivel atualizado com sucesso"));
+                })
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado como id: " + id));
+    }
+
 }
