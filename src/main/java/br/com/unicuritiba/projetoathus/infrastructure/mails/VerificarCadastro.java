@@ -2,6 +2,7 @@ package br.com.unicuritiba.projetoathus.infrastructure.mails;
 
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.ConflictException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.handler.CreatedException;
 import lombok.Getter;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -33,7 +34,7 @@ public class VerificarCadastro {
         }
 
         if (this.codigoativo) {
-            throw new ConflictException("Código já enviado");
+            throw new CreatedException("Código já enviado");
         }
         this.codigoGerado = 100000 + new Random().nextInt(900000);
         this.expiracao = LocalDateTime.now().plusMinutes(15);
