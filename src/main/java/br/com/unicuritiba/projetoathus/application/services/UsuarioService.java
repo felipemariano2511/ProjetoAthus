@@ -79,6 +79,26 @@ public class UsuarioService {
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado como id: " + id));
     }
 
+    public ResponseEntity<UsuarioDTO> getUsuarioLogado(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof Usuario usuario){
+
+            return ResponseEntity.ok(mapper.toDTO(usuario));
+
+        } else if (principal instanceof String email){
+
+           return repository.findByEmail(email)
+           .map(usuario -> {
+                return ResponseEntity.ok(mapper.toDTO(usuario));
+           })
+           .orElseThrow(() -> new NotFoundException("Usuário não encontrado com email: " + email));
+           
+        }
+
+        throw new UnauthorizedException("Usuário não autenticado");
+    }
+
     private String getEmailUsuarioLogado() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
