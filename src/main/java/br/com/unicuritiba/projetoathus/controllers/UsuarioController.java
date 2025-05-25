@@ -31,6 +31,11 @@ public class UsuarioController {
         return ResponseEntity.ok(service.getUsuario(id));
     }
 
+    @GetMapping("/logado")
+    public ResponseEntity<ResponseEntity<UsuarioDTO>> getUsuarioLogado() {
+        return ResponseEntity.ok(service.getUsuarioLogado());
+    }
+
     @PutMapping
     public ResponseEntity<UsuarioDTO> putUsuario(@RequestBody Usuario usuario) throws Exception {
         return ResponseEntity.ok(mapper.toDTO(service.putUsuario(usuario).getBody()));
