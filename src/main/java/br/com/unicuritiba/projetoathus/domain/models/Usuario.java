@@ -78,7 +78,7 @@ public class Usuario {
     @Column(name = "banido")
     private boolean banido;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PrestacaoServico> prestacaoServicos;
 
 }

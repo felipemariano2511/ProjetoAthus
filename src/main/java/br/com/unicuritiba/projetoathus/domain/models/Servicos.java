@@ -24,7 +24,7 @@ public class Servicos {
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categorias categoria;
 
-    @OneToMany(mappedBy = "servico")
+    @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PrestacaoServico> prestacoes;
 
 }
