@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Redefinição de Senha - Instituto Athús</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background-color: #f4f4f4;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding: 40px 0;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);">
+
+        <!-- Cabeçalho com logotipo -->
+        <tr style="background-color: #ffffff;">
+          <td style="text-align: center; padding: 30px;">
+            <img src="cid:logoAthus" alt="Instituto Athus" width="200" style="max-width: 100%;">
+          </td>
+        </tr>
+
+        <!-- Corpo da mensagem -->
+        <tr>
+          <td style="padding: 30px 40px;">
+            <h2 style="color: #000000; margin-top: 0; font-size: 24px;">
+              Olá, <span th:text="${nome}">Usuário</span> 👋
+            </h2>
+
+            <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+              Recebemos uma solicitação para redefinir a senha da sua conta no <strong>Instituto Athús</strong>.
+            </p>
+
+            <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+              Clique no link abaixo para redefinir sua senha. Este link é válido por apenas <strong>15 minutos</strong>.
+            </p>
+
+            <a th:href="${linkReset}">Redefinir minha senha</a>
+
+            <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+              Se você não solicitou esta redefinição, ignore este e-mail. Nenhuma ação adicional é necessária.
+            </p>
+
+            <p style="margin-top: 30px; color: #777777; font-size: 14px;">
+              Caso tenha dúvidas ou precise de ajuda, entre em contato com nosso suporte.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Rodapé -->
+        <tr>
+          <td style="background-color: #000000; text-align: center; padding: 20px;">
+            <p style="margin: 0; font-size: 13px; color: #ffffff;">
+              © 2025 Instituto Athus — Todos os direitos reservados
+            </p>
+            <p style="margin: 5px 0 0; font-size: 12px; color: #888888;">
+              Este é um e-mail automático, por favor não responda.
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

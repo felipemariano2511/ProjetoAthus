@@ -51,4 +51,14 @@ public class TokenService {
     private Instant gerarDataExpiracao() {
         return LocalDateTime.now().plusMinutes(5).toInstant(ZoneOffset.of("-3"));
     }
+
+    public String gerarResetToken(String email) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.create()
+                .withIssuer("login-auth-api")
+                .withSubject(email)
+                .withClaim("type", "reset-token")
+                .withExpiresAt(LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-3")))
+                .sign(algorithm);
+    }
 }
