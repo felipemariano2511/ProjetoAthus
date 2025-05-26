@@ -1,68 +1,81 @@
 package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
-import br.com.unicuritiba.projetoathus.application.forms.PrestacaoServicoForms;
 import br.com.unicuritiba.projetoathus.application.services.PrestacaoServicoService;
+import br.com.unicuritiba.projetoathus.domain.dto.PrestacaoServicoDTO;
 import br.com.unicuritiba.projetoathus.domain.models.PrestacaoServico;
-import br.com.unicuritiba.projetoathus.mappers.PrestacaoServicosFormsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/prestacaoservicos")
 public class PrestacaoServicoController {
+
     @Autowired
     private PrestacaoServicoService service;
 
+    // Endpoint para buscar todas as prestações de serviço
     @GetMapping
-    public ResponseEntity<?> findAll(){
-        return ResponseEntity.ok(service.buscarTodos());
+    public ResponseEntity<List<PrestacaoServicoDTO>> findAll() {
+        return service.buscarTodos();
     }
 
+    // Endpoint para buscar uma prestação de serviço pelo ID
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id){
-        return ResponseEntity.ok(service.buscarPorId(id));
+    public ResponseEntity<PrestacaoServicoDTO> findById(@PathVariable Long id) {
+        return service.buscarPorId(id);
     }
 
+    // buscar por id de usuário
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<?> findByIdUsuario(@PathVariable Long id){
-        return ResponseEntity.ok(service.procurarPorUsuario(id));
+    public ResponseEntity<List<PrestacaoServicoDTO>> findByUsuario(@PathVariable Long id) {
+        return service.procurarPorUsuario(id);
     }
+
 
     @GetMapping("/servico/{nome}")
-    public ResponseEntity<?> findByNameServico(@PathVariable String nome){
-        return ResponseEntity.ok(service.procurarPorServico(nome));
+    public ResponseEntity<List<PrestacaoServicoDTO>> findByServico(@PathVariable String nome) {
+        return service.procurarPorServico(nome);
     }
 
+
+    // Endpoint para criar uma nova prestação de serviço
+    // O DTO recebido (via @ModelAttribute) deve conter os objetos aninhados com, ao menos, os IDs em dto.usuario().id() e dto.servico().id()
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> postPrestacaoServico(
+    public ResponseEntity<PrestacaoServicoDTO> postPrestacaoServico(
             @RequestParam("imagem") List<MultipartFile> imagens,
-            @ModelAttribute PrestacaoServicoForms forms) {
-
-        PrestacaoServico servico = PrestacaoServicosFormsMapper.toEntity(forms);
-        return ResponseEntity.ok(service.criarPrestacaoServico(imagens, servico));
+            @ModelAttribute("prestacao") PrestacaoServico prestacao) {
+        return service.criarPrestacaoServico(imagens, prestacao);
     }
 
+    // Endpoint para atualizar uma prestação de serviço existente
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> putPrestacaoServico(
+    public ResponseEntity<PrestacaoServicoDTO> putPrestacaoServico(
             @RequestParam("imagem") List<MultipartFile> imagens,
-            @ModelAttribute PrestacaoServicoForms forms) {
-
-        PrestacaoServico servico = PrestacaoServicosFormsMapper.toEntity(forms);
-        return ResponseEntity.ok(service.atualizarPrestacaoServico(imagens, servico));
+            @ModelAttribute PrestacaoServicoDTO dto) {
+        return service.atualizarPrestacaoServico(imagens, dto);
     }
 
-    @PutMapping("/desativar")
-    public ResponseEntity<?> desativarPrestacaoServico(@RequestBody PrestacaoServico prestacaoServico){
-        return ResponseEntity.ok(service.desativarPrestacao(prestacaoServico));
+    // operação de desativar:
+    @PutMapping("/desativar/{id}")
+    public ResponseEntity<PrestacaoServicoDTO> desativarPrestacaoServico(@PathVariable Long id) {
+        return service.desativarPrestacao(id);
     }
 
+    // operação de ativar:
+    @PutMapping("/ativar/{id}")
+    public ResponseEntity<PrestacaoServicoDTO> ativarPrestacaoServico(@PathVariable Long id) {
+        return service.ativarPrestacao(id);
+    }
+
+
+    // Endpoint para deletar uma prestação de serviço
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePrestacaoServico(@PathVariable Long id){
-        return ResponseEntity.ok(service.deletarPrestacaoServico(id));
+    public ResponseEntity<Void> deletePrestacaoServico(@PathVariable Long id) {
+        return service.deletarPrestacaoServico(id);
     }
-    
 }
