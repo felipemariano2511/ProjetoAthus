@@ -1,8 +1,8 @@
-package br.com.unicuritiba.projetoathus.dto;
+package br.com.unicuritiba.projetoathus.domain.dto;
 
 import java.util.Date;
 
-public record AdminDTO(
+public record UsuarioDTO(
         Long id,
         String nome,
         String email,
@@ -15,11 +15,9 @@ public record AdminDTO(
         String cep,
         String rua,
         int numero,
-        String apartamento,
+        int apartamento,
         String logradouro,
         String imagemPerfil,
         boolean ativo,
-        int nivel,
-        boolean prestadorServico,
-        boolean banido
+        boolean prestadorServico
 ) {}

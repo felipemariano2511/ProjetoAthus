@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "f3324f99-67a1-40e7-8bc2-2f139243ab9d",
+		"_postman_id": "ec78d100-e7f6-4b8b-87b3-bb22eba116c2",
 		"name": "ProjetoAthus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43766876",
-		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-f3324f99-67a1-40e7-8bc2-2f139243ab9d?action=share&source=collection_link&creator=43766876"
+		"_exporter_id": "43792097",
+		"_collection_link": "https://restless-shadow-9937464.postman.co/workspace/Vin%C3%ADcius-Stencel's-Workspace~85490178-8509-41a2-8e24-34371188d8b3/collection/43792097-ec78d100-e7f6-4b8b-87b3-bb22eba116c2?action=share&source=collection_link&creator=43792097"
 	},
 	"item": [
 		{
@@ -95,13 +95,80 @@
 						"method": "PUT",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nome\" : \"Josias Marcelo Bruno Fonseca\",\r\n    \"telefone\" : \"41 98888-8888\",\r\n    \"senha\" : \"123\",\r\n    \"cpf\" : \"123.456.789-32\",\r\n    \"dataNascimento\" : \"1980-06-23\",\r\n    \"pais\" : \"Brasil\",\r\n    \"estado\" : \"PR\",\r\n    \"cidade\" : \"Mandirituba\",\r\n    \"cep\" : \"83810-010\",\r\n    \"rua\" : \"Rua Josias Fonseca da Silva\",\r\n    \"numero\" : 83,\r\n    \"apartamento\" : 0,\r\n    \"logradouro\" : \"Casa\",\r\n    \"imagemPerfil\" : \"ImagensRg/NaoProcessada/meu_rg.jpg\"\r\n\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nome",
+									"value": "Felipe Mariano",
+									"description": "Teste",
+									"type": "text"
+								},
+								{
+									"key": "telefone",
+									"value": "41 98888-8888",
+									"type": "text"
+								},
+								{
+									"key": "senha",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "cpf",
+									"value": "123.456.789-00",
+									"type": "text"
+								},
+								{
+									"key": "dataNascimento",
+									"value": "1980-05-23",
+									"type": "text"
+								},
+								{
+									"key": "pais",
+									"value": "Brasil",
+									"type": "text"
+								},
+								{
+									"key": "estado",
+									"value": "PR",
+									"type": "text"
+								},
+								{
+									"key": "cidade",
+									"value": "Mandirituba",
+									"type": "text"
+								},
+								{
+									"key": "cep",
+									"value": "83810-000",
+									"type": "text"
+								},
+								{
+									"key": "rua",
+									"value": "Rua José Bonifácio",
+									"type": "text"
+								},
+								{
+									"key": "numero",
+									"value": "69",
+									"type": "text"
+								},
+								{
+									"key": "logradouro",
+									"value": "Chácara",
+									"type": "text"
+								},
+								{
+									"key": "apartamento",
+									"value": "00",
+									"type": "text"
+								},
+								{
+									"key": "imagemPerfil",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/carrocas-de-tracao-animal-viraram-polemica-em-feira-de-santana-1888466-article.jpeg"
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "localhost:8080/usuarios",
@@ -205,22 +272,13 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6ImZlbGlwZS5tYXJpYW5vMjUxMUBnbWFpbC5jb20iLCJuaXZlbCI6MCwidHlwZSI6ImFjY2Vzcy10b2tlbiIsImV4cCI6MTc0ODEyOTA3M30.yNDwe4M5rIT-42Da6EUiI28dJAo2IMTGgDGjUkEw29M",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "localhost:8080/servicos/1",
 							"host": [
@@ -236,7 +294,6 @@
 					"response": []
 				}
 			]
-
 		},
 		{
 			"name": "Login / Cadastrar",
@@ -248,7 +305,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nomeCompleto\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"raw": "{\r\n    \"nomeCompleto\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano1903@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -276,7 +333,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"codigo\" : \"\"\r\n}",
+							"raw": "{\r\n    \"email\" : \"felipe.mariano1903@gmail.com\",\r\n    \"codigo\" : \"724204\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -442,6 +499,117 @@
 							"path": [
 								"auth",
 								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prestação de Serviços",
+			"item": [
+				{
+					"name": "BuscarTodosServicos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6ImZlbGlwZS5tYXJpYW5vMjUxMUBnbWFpbC5jb20iLCJuaXZlbCI6MCwidHlwZSI6ImFjY2Vzcy10b2tlbiIsImV4cCI6MTc0ODEyOTA3M30.yNDwe4M5rIT-42Da6EUiI28dJAo2IMTGgDGjUkEw29M",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CadastrarServiçoPrestado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6ImZlbGlwZS5tYXJpYW5vMjUxMUBnbWFpbC5jb20iLCJuaXZlbCI6MCwidHlwZSI6ImFjY2Vzcy10b2tlbiIsImV4cCI6MTc0ODEyOTYyMH0.fGr04ETVP3HITKdVW33aAI7-hNB4qOwOlf7mZC9RcaA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuario",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "servico",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "descricaoCompleta",
+									"value": "hat is Lorem Ipsum?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\nWhy do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\n\n",
+									"type": "text"
+								},
+								{
+									"key": "valor",
+									"value": "2000.00",
+									"type": "text"
+								},
+								{
+									"key": "descricaoCurta",
+									"value": "hat is Lorem Ipsum?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n\n",
+									"type": "text"
+								},
+								{
+									"key": "ativo",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "imagem",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/230409397745471.jpg"
+								},
+								{
+									"key": "imagem",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/2019-12-02-argo-trekking-1.webp"
+								},
+								{
+									"key": "imagem",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/volkswagen-fusca-1500-i63t2h-seq-1-16-classico-0339.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos"
 							]
 						}
 					},

@@ -1,4 +1,4 @@
-package br.com.unicuritiba.projetoathus.controllers;
+package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.CategoriasService;
 import br.com.unicuritiba.projetoathus.domain.models.Categorias;

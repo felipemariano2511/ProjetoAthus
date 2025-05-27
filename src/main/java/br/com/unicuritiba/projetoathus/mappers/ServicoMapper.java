@@ -3,7 +3,7 @@ package br.com.unicuritiba.projetoathus.mappers;
 import org.springframework.stereotype.Component;
 
 import br.com.unicuritiba.projetoathus.domain.models.Servicos;
-import br.com.unicuritiba.projetoathus.dto.ServicoDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.ServicoDTO;
 
 @Component
 public class ServicoMapper {
