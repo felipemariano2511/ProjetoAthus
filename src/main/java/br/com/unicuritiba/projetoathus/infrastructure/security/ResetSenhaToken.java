@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 public class ResetSenhaToken {
     private final String token;
     private final String email;
-    private final Instant expiraEm;
+    private final LocalDateTime expiraEm;
 
     public boolean expirado() {
-        return Instant.now().isAfter(expiraEm);
+        return LocalDateTime.now().isAfter(expiraEm);
     }
 }
