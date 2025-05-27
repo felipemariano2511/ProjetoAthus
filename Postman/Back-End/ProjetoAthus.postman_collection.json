@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "ec78d100-e7f6-4b8b-87b3-bb22eba116c2",
+		"_postman_id": "33ebc00e-efa4-4a5d-a4a0-866fb079afc7",
 		"name": "ProjetoAthus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43792097",
-		"_collection_link": "https://restless-shadow-9937464.postman.co/workspace/Vin%C3%ADcius-Stencel's-Workspace~85490178-8509-41a2-8e24-34371188d8b3/collection/43792097-ec78d100-e7f6-4b8b-87b3-bb22eba116c2?action=share&source=collection_link&creator=43792097"
+		"_exporter_id": "43766876",
+		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-33ebc00e-efa4-4a5d-a4a0-866fb079afc7?action=share&source=collection_link&creator=43766876"
 	},
 	"item": [
 		{
@@ -503,6 +503,57 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "SolicitaçãoParaResetarSenha",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"felipe.mariano2511@gmail.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/resetsenha",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"resetsenha"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ConfirmarResetarSenha",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"novaSenha\" : \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "Cole aqui o link recebido no email",
+							"host": [
+								"Cole aqui o link recebido no email"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -517,7 +568,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6ImZlbGlwZS5tYXJpYW5vMjUxMUBnbWFpbC5jb20iLCJuaXZlbCI6MCwidHlwZSI6ImFjY2Vzcy10b2tlbiIsImV4cCI6MTc0ODEyOTA3M30.yNDwe4M5rIT-42Da6EUiI28dJAo2IMTGgDGjUkEw29M",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -545,7 +596,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6ImZlbGlwZS5tYXJpYW5vMjUxMUBnbWFpbC5jb20iLCJuaXZlbCI6MCwidHlwZSI6ImFjY2Vzcy10b2tlbiIsImV4cCI6MTc0ODEyOTYyMH0.fGr04ETVP3HITKdVW33aAI7-hNB4qOwOlf7mZC9RcaA",
+									"value": "",
 									"type": "string"
 								}
 							]

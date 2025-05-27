@@ -47,5 +47,30 @@ public class EmailService {
             throw new RuntimeException("Erro ao enviar e-mail: " + e.getMessage(), e);
         }
     }
+
+    public void enviarEmailComReset(String destinatario, String assunto, String templateNome, Map<String, Object> variaveis) {
+        try {
+            MimeMessage mensagem = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensagem, true, "UTF-8");
+
+            Context context = new Context();
+            context.setVariables(variaveis);
+
+            String html = templateEngine.process(templateNome, context);
+
+            helper.setFrom(remetente);
+            helper.setTo(destinatario);
+            helper.setSubject(assunto);
+            helper.setText(html, true);
+
+            ClassPathResource imagem = new ClassPathResource("images/logo_Athus.png");
+            helper.addInline("logoAthus", imagem);
+
+            mailSender.send(mensagem);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao enviar e-mail: " + e.getMessage(), e);
+        }
+    }
 }
 
