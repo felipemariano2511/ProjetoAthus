@@ -10,18 +10,23 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/auth/resetsenha/confirmar")
+@RequestMapping("/auth/resetsenha")
 public class ResetSenhaController {
 
     @Autowired
     private ResetSenhaService resetSenhaService;
 
-    @GetMapping
+    @PostMapping
+    public ResponseEntity<?> solcitiarResetSenha(@RequestBody ResetSenhaDTO.ResetSenhaRequestDto request) {
+        return ResponseEntity.ok(resetSenhaService.enviarTokenReset(request.email()));
+    }
+
+    @GetMapping("/confirmar")
     public String mostrarFormulario() {
         return "view-reset-senha";
     }
 
-    @PostMapping
+    @PostMapping("/confirmar")
     public ResponseEntity<?> resetarSenha(@Valid @RequestBody ResetSenhaDTO.ResetSenhaConfirmarDto request,
                                           @RequestParam("token") String token) {
 
