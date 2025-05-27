@@ -1,25 +1,22 @@
-package br.com.unicuritiba.projetoathus.controllers;
+package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.AuthService;
-import br.com.unicuritiba.projetoathus.application.services.ResetSenhaService;
-import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
-import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
-import br.com.unicuritiba.projetoathus.dto.ResetSenhaDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.unicuritiba.projetoathus.domain.dto.LoginRequestDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.RegisterRequestDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
-
-    @Autowired
-    private ResetSenhaService resetSenhaService;
+    private final AuthService authService;
 
     @PostMapping("/cadastrar")
     public ResponseEntity<?> cadastrar(@RequestBody RegisterRequestDTO body) {
@@ -39,10 +36,5 @@ public class AuthController {
     @PostMapping("/validarcodigo")
     public ResponseEntity<?> validarCodigo(@RequestBody Map<String, String> body) {
         return ResponseEntity.ok(authService.validarCodigo(body.get("email"), Integer.parseInt(body.get("codigo"))));
-    }
-
-    @PostMapping("/resetsenha")
-    public ResponseEntity<?> enviarTokenReset(@Valid @RequestBody ResetSenhaDTO.ResetSenhaRequestDto request) {
-        return resetSenhaService.enviarTokenReset(request.email());
     }
 }

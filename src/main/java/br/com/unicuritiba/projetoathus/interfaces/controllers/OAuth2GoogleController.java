@@ -1,4 +1,4 @@
-package br.com.unicuritiba.projetoathus.controllers;
+package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.OAuth2GoogleService;
 import org.springframework.beans.factory.annotation.Autowired;

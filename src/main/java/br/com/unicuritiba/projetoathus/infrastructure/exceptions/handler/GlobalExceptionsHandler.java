@@ -54,6 +54,11 @@ public class GlobalExceptionsHandler {
         return buildErrorResponse(ex, HttpStatus.CONFLICT, request.getRequestURI());
     }
 
+    @ExceptionHandler(CreatedException.class)
+    public ResponseEntity<ErrorResponse> handleCreatedException(CreatedException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex, HttpStatus.CREATED, request.getRequestURI());
+    }
+
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<Object> handleTokenExpiredException(TokenExpiredException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
