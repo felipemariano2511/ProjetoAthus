@@ -4,6 +4,7 @@ import java.util.Date;
 
 public record UsuarioDTO(
         Long id,
+        String nomeCompleto,
         String nome,
         String email,
         String telefone,

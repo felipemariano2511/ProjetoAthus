@@ -10,6 +10,7 @@ public class UsuarioMapper {
     public UsuarioDTO toDTO(Usuario u) {
         return new UsuarioDTO(
                 u.getId(),
+                u.getNomeCompleto(),
                 u.getNome(),
                 u.getEmail(),
                 u.getTelefone(),
