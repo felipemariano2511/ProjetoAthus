@@ -32,8 +32,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseEntity<?>> getUsuario(@PathVariable Long id) {
+    public ResponseEntity<?> getUsuario(@PathVariable Long id) {
         return ResponseEntity.ok(service.getUsuario(id));
+    }
+
+    @GetMapping("/logado")
+    public ResponseEntity<?> getInfoUsuarioLogado() {
+        return ResponseEntity.ok(service.getInfoUsuarioLogado());
     }
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
