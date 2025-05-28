@@ -80,6 +80,35 @@
 					"response": []
 				},
 				{
+					"name": "BuscarInfoUsuarioLogado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/logado",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"logado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "AtualizarUsuario",
 					"request": {
 						"auth": {
