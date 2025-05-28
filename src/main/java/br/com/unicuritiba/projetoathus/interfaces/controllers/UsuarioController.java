@@ -1,15 +1,19 @@
-package br.com.unicuritiba.projetoathus.controllers;
+package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
+import br.com.unicuritiba.projetoathus.application.forms.UsuarioForm;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.dto.SetAtivoDTO;
 import br.com.unicuritiba.projetoathus.dto.SetNivelDTO;
 import br.com.unicuritiba.projetoathus.dto.UsuarioDTO;
 import br.com.unicuritiba.projetoathus.application.services.UsuarioService;
+import br.com.unicuritiba.projetoathus.mappers.UsuarioFormMapper;
 import br.com.unicuritiba.projetoathus.mappers.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
@@ -28,13 +32,22 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseEntity<?>> getUsuario(@PathVariable Long id) {
+    public ResponseEntity<?> getUsuario(@PathVariable Long id) {
         return ResponseEntity.ok(service.getUsuario(id));
     }
 
-    @PutMapping
-    public ResponseEntity<UsuarioDTO> putUsuario(@RequestBody Usuario usuario) throws Exception {
-        return ResponseEntity.ok(mapper.toDTO(service.putUsuario(usuario).getBody()));
+    @GetMapping("/logado")
+    public ResponseEntity<?> getInfoUsuarioLogado() {
+        return ResponseEntity.ok(service.getInfoUsuarioLogado());
+    }
+
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<UsuarioDTO> putUsuario(
+            @RequestParam("imagemPerfil") MultipartFile imagem,
+            @ModelAttribute UsuarioForm form) {
+
+        Usuario usuario = UsuarioFormMapper.toUsuario(form);
+        return ResponseEntity.ok(mapper.toDTO(service.putUsuario(imagem, usuario).getBody()));
     }
 
     @DeleteMapping("/{id}")

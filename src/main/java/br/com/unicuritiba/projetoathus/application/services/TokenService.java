@@ -44,11 +44,21 @@ public class TokenService {
                     .withSubject(email)
                     .withClaim("nivel", nivel)
                     .withClaim("type", "refresh-token")
-                    .withExpiresAt(LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-3")))
+                    .withExpiresAt(LocalDateTime.now().plusMonths(6).toInstant(ZoneOffset.of("-3")))
                     .sign(algorithm);
     }
 
     private Instant gerarDataExpiracao() {
-        return LocalDateTime.now().plusMinutes(5).toInstant(ZoneOffset.of("-3"));
+        return LocalDateTime.now().plusHours(24).toInstant(ZoneOffset.of("-3"));
+    }
+
+    public String gerarResetToken(String email) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.create()
+                .withIssuer("login-auth-api")
+                .withSubject(email)
+                .withClaim("type", "reset-token")
+                .withExpiresAt(LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-3")))
+                .sign(algorithm);
     }
 }

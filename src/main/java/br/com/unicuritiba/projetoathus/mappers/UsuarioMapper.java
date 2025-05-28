@@ -1,7 +1,7 @@
 package br.com.unicuritiba.projetoathus.mappers;
 
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
-import br.com.unicuritiba.projetoathus.dto.UsuarioDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.UsuarioDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,6 +10,7 @@ public class UsuarioMapper {
     public UsuarioDTO toDTO(Usuario u) {
         return new UsuarioDTO(
                 u.getId(),
+                u.getNomeCompleto(),
                 u.getNome(),
                 u.getEmail(),
                 u.getTelefone(),
