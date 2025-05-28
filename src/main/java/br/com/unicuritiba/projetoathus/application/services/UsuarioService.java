@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +31,9 @@ public class UsuarioService {
     @Autowired
     private UserImageUploadService imageUploadService;
 
+    @Autowired
+    private TokenService tokenService;
+
     public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() throws NoContentException {
         return ResponseEntity.ok(repository.findAll()
                 .stream()
@@ -43,6 +45,15 @@ public class UsuarioService {
         return ResponseEntity.ok(repository.findById(id)
                 .stream()
                 .map(mapper::toDTO));
+    }
+
+    public ResponseEntity<UsuarioDTO> getInfoUsuarioLogado() {
+        String email = getEmailUsuarioLogado();
+
+        Usuario usuarioLogado = repository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado no banco de dados"));
+
+        return ResponseEntity.ok(mapper.toDTO(usuarioLogado));
     }
 
     public ResponseEntity<Usuario> putUsuario(MultipartFile imagem, Usuario usuario) throws NotFoundException {
