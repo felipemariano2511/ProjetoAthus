@@ -1,16 +1,18 @@
 package br.com.unicuritiba.projetoathus.application.services;
 
-import br.com.unicuritiba.projetoathus.application.mails.VerificarCadastro;
+import br.com.unicuritiba.projetoathus.infrastructure.mails.VerificarCadastro;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
-import br.com.unicuritiba.projetoathus.dto.LoginRequestDTO;
-import br.com.unicuritiba.projetoathus.dto.RegisterRequestDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.LoginRequestDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.RegisterRequestDTO;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.*;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -37,14 +39,20 @@ public class AuthService {
         verificacoes.put(body.email(), verificador);
         cadastrosPendentes.put(body.email(), body);
 
-        emailService.enviarEmail(
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("nome", body.nomeCompleto());
+        variaveis.put("codigo", codigo);
+
+        emailService.enviarEmailComTemplate(
                 body.email(),
-                "Verificação de e-mail",
-                String.format("Olá, %s! Seu código de verificação é: %d", body.nomeCompleto(), codigo)
+                "Seu código de verificação - Instituto Athus",
+                "email-codigo-verificacao",
+                variaveis
         );
 
+
         return ResponseEntity.ok(Map.of(
-                "message",   "Código de verificação enviado para o e-mail."
+                "message",   String.format("Código de verificação enviado para o e-mail: %s", body.email())
         ));
     }
 
@@ -56,8 +64,8 @@ public class AuthService {
                         throw new BadRequestException("Senha incorreta!");
                     }
 
-                    String accessToken = tokenService.gerarAccessToken(usuario.getEmail());
-                    String refreshToken = tokenService.gerarRefreshToken(usuario.getEmail());
+                    String accessToken = tokenService.gerarAccessToken(usuario.getEmail(), usuario.getNivel());
+                    String refreshToken = tokenService.gerarRefreshToken(usuario.getEmail(), usuario.getNivel());
 
                     return ResponseEntity.ok(Map.of(
                             "accessToken", accessToken,
@@ -76,7 +84,7 @@ public class AuthService {
 
         if (jwt.getClaim("type").asString().equals("refresh-token")) {
 
-            String novoAccessToken = tokenService.gerarAccessToken(jwt.getSubject());
+            String novoAccessToken = tokenService.gerarAccessToken(jwt.getSubject(), jwt.getClaim("nivel").asInt());
 
             return ResponseEntity.ok(Map.of(
                     "accessToken", novoAccessToken
@@ -86,7 +94,31 @@ public class AuthService {
         }
     }
 
-    public ResponseEntity<?> validarCodigo(String email, int codigo) {
+    public ResponseEntity<Map> solicitarNovoCodigo(RegisterRequestDTO body) {
+        VerificarCadastro verificador = verificacoes.getOrDefault(body.email(), new VerificarCadastro());
+        int codigo = verificador.solicitarCodigoExtra();
+
+        verificacoes.put(body.email(), verificador);
+        cadastrosPendentes.put(body.email(), body);
+
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("nome", body.nomeCompleto());
+        variaveis.put("codigo", codigo);
+
+        emailService.enviarEmailComTemplate(
+                body.email(),
+                "Seu código de verificação - Instituto Athus",
+                "email-codigo-verificacao",
+                variaveis
+        );
+
+
+        return ResponseEntity.ok(Map.of(
+                "message",   String.format("Código de verificação enviado para o e-mail: %s", body.email())
+        ));
+    }
+
+    public ResponseEntity<Map> validarCodigo(String email, int codigo) {
         VerificarCadastro verificador = verificacoes.get(email);
         if (verificador == null) {
             throw new BuisnessException("Nenhum código foi gerado para esse e-mail.");
@@ -105,11 +137,12 @@ public class AuthService {
 
         Usuario usuario = new Usuario();
         usuario.setNomeCompleto(dados.nomeCompleto());
+        usuario.setNome(dados.nomeCompleto());
         usuario.setEmail(dados.email());
         usuario.setSenha(passwordEncoder.encode(dados.senha()));
         usuario.setNumero(0);
         usuario.setApartamento(0);
-        usuario.setImagemPerfil("../images/usuario.png");
+        usuario.setImagemPerfil("storage/imagens/usuarios/usuario.png");
         usuario.setNivel((short) 0);
         usuario.setAtivo(true);
         usuario.setBanido(false);
@@ -118,10 +151,19 @@ public class AuthService {
         verificacoes.remove(email);
         cadastrosPendentes.remove(email);
 
-        emailService.enviarEmail(email, "Cadastro concluído", "Parabéns, sua conta foi criada com sucesso!");
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("nome", usuario.getNomeCompleto());
+        variaveis.put("email", usuario.getEmail());
 
-        String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail());
-        String novoRefreshToken = tokenService.gerarRefreshToken(email);
+        emailService.enviarEmailComTemplate(
+                usuario.getEmail(),
+                "Cadastro realizado com sucesso",
+                "email-conta-criada",
+                variaveis
+        );
+
+        String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail(), usuario.getNivel());
+        String novoRefreshToken = tokenService.gerarRefreshToken(email, usuario.getNivel());
 
         return ResponseEntity.ok(Map.of(
                 "accessToken", novoAccessToken,

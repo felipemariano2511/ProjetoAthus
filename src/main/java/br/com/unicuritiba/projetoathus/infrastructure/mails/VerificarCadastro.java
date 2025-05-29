@@ -1,8 +1,10 @@
-package br.com.unicuritiba.projetoathus.application.mails;
+package br.com.unicuritiba.projetoathus.infrastructure.mails;
 
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.ConflictException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.handler.CreatedException;
 import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
@@ -19,6 +21,7 @@ public class VerificarCadastro {
     private LocalDateTime bloqueadoAte;
     private boolean desbloqueado;
     private boolean codigoativo = false;
+    private int quantidadeSolicitacoesExtra = 0;
 
     public VerificarCadastro() {
         this.emailVerificado = false;
@@ -28,17 +31,38 @@ public class VerificarCadastro {
         if (estaBloqueado()) {
             int minutosRestantes = (int) ChronoUnit.MINUTES.between(LocalDateTime.now(), bloqueadoAte);
             throw new UnprocessableEntityException(String.format("Usuário bloqueado. Aguarde %s minutos.", minutosRestantes));
-        }else {
+        } else {
             desbloquear();
         }
 
         if (this.codigoativo) {
-            throw new ConflictException("Código já enviado");
+            throw new CreatedException("Código já enviado");
         }
+
         this.codigoGerado = 100000 + new Random().nextInt(900000);
         this.expiracao = LocalDateTime.now().plusMinutes(15);
         this.tentativasRestantes = MAX_TENTATIVAS;
         this.codigoativo = true;
+        this.quantidadeSolicitacoesExtra = 0;
+        return this.codigoGerado;
+    }
+
+    public int solicitarCodigoExtra() {
+        if (estaBloqueado()) {
+            int minutosRestantes = (int) ChronoUnit.MINUTES.between(LocalDateTime.now(), bloqueadoAte);
+            throw new UnprocessableEntityException(String.format("Usuário bloqueado. Aguarde %s minutos.", minutosRestantes));
+        } else {
+            desbloquear();
+        }
+
+        quantidadeSolicitacoesExtra++;
+        int tempoBloqueio = (int) Math.pow(2, quantidadeSolicitacoesExtra); // Exponencial
+        this.bloqueadoAte = LocalDateTime.now().plusMinutes(tempoBloqueio);
+        this.codigoGerado = 100000 + new Random().nextInt(900000);
+        this.expiracao = LocalDateTime.now().plusMinutes(15);
+        this.tentativasRestantes = MAX_TENTATIVAS;
+        this.codigoativo = true;
+
         return this.codigoGerado;
     }
 
@@ -74,6 +98,7 @@ public class VerificarCadastro {
     private void destruirCodigo() {
         this.codigoGerado = 0;
         this.expiracao = null;
+        this.codigoativo = false;
     }
 
     private void bloquear() {
@@ -81,7 +106,9 @@ public class VerificarCadastro {
         this.bloqueadoAte = LocalDateTime.now().plusMinutes(30);
     }
 
-    private void desbloquear() {this.desbloqueado = true;}
+    private void desbloquear() {
+        this.desbloqueado = true;
+    }
 
     private boolean estaBloqueado() {
         return bloqueadoAte != null && LocalDateTime.now().isBefore(bloqueadoAte);
