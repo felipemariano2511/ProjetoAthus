@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Conta Criada - Instituto Athús</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background-color: #f4f4f4;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding: 40px 0;">
+    <tr>
+        <td align="center">
+            <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);">
+
+                <!-- Cabeçalho com logotipo -->
+                <tr style="background-color: #ffffff;">
+                    <td style="text-align: center; padding: 30px;">
+                        <img src="cid:logoAthus" alt="Instituto Athus" width="200" style="max-width: 100%;">
+                    </td>
+                </tr>
+
+                <!-- Corpo da mensagem -->
+                <tr>
+                    <td style="padding: 30px 40px;">
+                        <h2 style="color: #000000; margin-top: 0; font-size: 24px;">Olá, <span th:text="${nome}">Usuário</span> 👋</h2>
+
+                        <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+                            Temos o prazer de informar que sua conta foi criada com sucesso no <strong>Instituto Athús</strong>.
+                        </p>
+
+                        <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+                            A partir de agora, você poderá acessar nossos serviços e recursos exclusivos utilizando o e-mail:
+                            <br><strong style="color: #ef941d;" th:text="${email}">usuario@exemplo.com</strong>.
+                        </p>
+
+                        <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+                            Recomendamos que você mantenha seus dados atualizados e, por segurança, nunca compartilhe sua senha com terceiros.
+                        </p>
+
+                        <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+                            Caso tenha qualquer dúvida ou precise de ajuda, nossa equipe de suporte está à disposição para te auxiliar.
+                        </p>
+
+                        <p style="margin-top: 30px; color: #777777; font-size: 14px;">
+                            Se você não reconhece esta ação, entre em contato conosco imediatamente para garantir a segurança da sua conta.
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Rodapé -->
+                <tr>
+                    <td style="background-color: #000000; text-align: center; padding: 20px;">
+                        <p style="margin: 0; font-size: 13px; color: #ffffff;">
+                            © 2025 Instituto Athus — Todos os direitos reservados
+                        </p>
+                        <p style="margin: 5px 0 0; font-size: 12px; color: #888888;">
+                            Este é um e-mail automático, por favor não responda.
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

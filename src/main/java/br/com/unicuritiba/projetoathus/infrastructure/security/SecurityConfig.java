@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -37,6 +39,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/cadastrar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/validarcodigo").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/novocodigo").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/resetsenha").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/resetsenha/confirmar").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/auth/resetsenha/confirmar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/oauth2/google/autenticado").permitAll()
                         .anyRequest().authenticated()
                 )
