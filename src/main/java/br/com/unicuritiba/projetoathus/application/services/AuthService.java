@@ -94,7 +94,31 @@ public class AuthService {
         }
     }
 
-    public ResponseEntity<?> validarCodigo(String email, int codigo) {
+    public ResponseEntity<Map> solicitarNovoCodigo(RegisterRequestDTO body) {
+        VerificarCadastro verificador = verificacoes.getOrDefault(body.email(), new VerificarCadastro());
+        int codigo = verificador.solicitarCodigoExtra();
+
+        verificacoes.put(body.email(), verificador);
+        cadastrosPendentes.put(body.email(), body);
+
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("nome", body.nomeCompleto());
+        variaveis.put("codigo", codigo);
+
+        emailService.enviarEmailComTemplate(
+                body.email(),
+                "Seu código de verificação - Instituto Athus",
+                "email-codigo-verificacao",
+                variaveis
+        );
+
+
+        return ResponseEntity.ok(Map.of(
+                "message",   String.format("Código de verificação enviado para o e-mail: %s", body.email())
+        ));
+    }
+
+    public ResponseEntity<Map> validarCodigo(String email, int codigo) {
         VerificarCadastro verificador = verificacoes.get(email);
         if (verificador == null) {
             throw new BuisnessException("Nenhum código foi gerado para esse e-mail.");

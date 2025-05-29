@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "33ebc00e-efa4-4a5d-a4a0-866fb079afc7",
+		"_postman_id": "dc16b3f2-e6bd-4d90-a698-76f1593c9ed4",
 		"name": "ProjetoAthus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "43766876",
-		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-33ebc00e-efa4-4a5d-a4a0-866fb079afc7?action=share&source=collection_link&creator=43766876"
+		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-dc16b3f2-e6bd-4d90-a698-76f1593c9ed4?action=share&source=collection_link&creator=43766876"
 	},
 	"item": [
 		{
@@ -487,7 +487,7 @@
 							}
 						},
 						"url": {
-							"raw": "felipemariano.com.br:8080/ProjetoAthusauth/login",
+							"raw": "felipemariano.com.br:8080/ProjetoAthus/auth/login",
 							"host": [
 								"felipemariano",
 								"com",
@@ -495,7 +495,8 @@
 							],
 							"port": "8080",
 							"path": [
-								"ProjetoAthusauth",
+								"ProjetoAthus",
+								"auth",
 								"login"
 							]
 						}
@@ -679,6 +680,37 @@
 							"raw": "Cole aqui o link recebido no email",
 							"host": [
 								"Cole aqui o link recebido no email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SolicitarNovoCodigoVerificação",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "felipemariano.com.br:8080/ProjetoAthus/auth/novocodigo",
+							"host": [
+								"felipemariano",
+								"com",
+								"br"
+							],
+							"port": "8080",
+							"path": [
+								"ProjetoAthus",
+								"auth",
+								"novocodigo"
 							]
 						}
 					},

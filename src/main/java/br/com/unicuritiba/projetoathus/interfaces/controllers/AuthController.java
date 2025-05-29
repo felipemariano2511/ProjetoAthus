@@ -33,6 +33,12 @@ public class AuthController {
         return ResponseEntity.ok(authService.refresh(body.get("refreshToken")));
     }
 
+    @PostMapping("/novocodigo")
+    public ResponseEntity<?> solicitarNovoCodigo(@RequestBody RegisterRequestDTO body) {
+        return ResponseEntity.ok(authService.solicitarNovoCodigo(body));
+    }
+
+
     @PostMapping("/validarcodigo")
     public ResponseEntity<?> validarCodigo(@RequestBody Map<String, String> body) {
         return ResponseEntity.ok(authService.validarCodigo(body.get("email"), Integer.parseInt(body.get("codigo"))));
