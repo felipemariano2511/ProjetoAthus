@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/cadastrar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/validarcodigo").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/novocodigo").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/resetsenha").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/resetsenha/confirmar").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/resetsenha/confirmar").permitAll()
