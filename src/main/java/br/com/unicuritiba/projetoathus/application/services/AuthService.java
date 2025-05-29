@@ -61,6 +61,7 @@ public class AuthService {
         return repository.findByEmail(body.email())
                 .map(usuario -> {
                     if (!passwordEncoder.matches(body.senha(), usuario.getSenha())) {
+                        // bad request?
                         throw new BadRequestException("Senha incorreta!");
                     }
 

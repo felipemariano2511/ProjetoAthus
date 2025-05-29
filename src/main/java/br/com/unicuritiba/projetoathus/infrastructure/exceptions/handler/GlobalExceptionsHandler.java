@@ -18,22 +18,22 @@ public class GlobalExceptionsHandler {
     public ResponseEntity<ErrorResponse> handleUnprocessableEntity(UnprocessableEntityException ex, HttpServletRequest request) {
         return buildErrorResponse(ex, HttpStatus.UNPROCESSABLE_ENTITY, request.getRequestURI());
     }
-
+    /*
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ErrorResponse> handleForbidenException(ForbiddenException ex, HttpServletRequest request) {
         return buildErrorResponse(ex, HttpStatus.FORBIDDEN, request.getRequestURI());
     }
-
+    */
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex, HttpServletRequest request) {
         return buildErrorResponse(ex, HttpStatus.UNAUTHORIZED, request.getRequestURI());
     }
-
+    /*
     @ExceptionHandler(BuisnessException.class)
     public ResponseEntity<ErrorResponse> handleBuisnessException(BuisnessException ex, HttpServletRequest request) {
         return buildErrorResponse(ex, HttpStatus.UNPROCESSABLE_ENTITY, request.getRequestURI());
     }
-
+    */
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, HttpServletRequest request) {
         return buildErrorResponse(ex, HttpStatus.BAD_REQUEST, request.getRequestURI());
