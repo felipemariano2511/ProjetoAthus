@@ -32,6 +32,10 @@ O *Athus* visa criar uma comunidade online onde talentos das periferias sejam re
 - **Banco de Dados**: MySQL 🗄️
 - **Autenticação**: JWT (JSON Web Tokens) 🔐
 
+## Guia de instalação 📘
+
+> 📘 **Veja também:** [Guia de Instalação e Setup Local](./SETUP.md)
+
 ## Como Contribuir 🤗
 
 1. **Clone este repositório**:
