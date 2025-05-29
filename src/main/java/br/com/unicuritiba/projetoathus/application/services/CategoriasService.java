@@ -2,15 +2,13 @@ package br.com.unicuritiba.projetoathus.application.services;
 
 import br.com.unicuritiba.projetoathus.domain.models.Categorias;
 import br.com.unicuritiba.projetoathus.domain.repositories.CategoriasRepository;
-import br.com.unicuritiba.projetoathus.dto.CategoriaDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.CategoriasDTO;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NoContentException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import br.com.unicuritiba.projetoathus.mappers.CategoriaMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +21,7 @@ public class CategoriasService {
     @Autowired
     private CategoriaMapper mapper;
 
-    public ResponseEntity<List<CategoriaDTO>> getAllCategorias() throws NoContentException {
+    public ResponseEntity<List<CategoriasDTO>> getAllCategorias() throws NoContentException {
         return ResponseEntity.ok(repository.findAll()
                 .stream()
                 .map(mapper::toDTO)

@@ -16,27 +16,28 @@ public class ServicosController {
     private ServicosService service;
 
     @GetMapping
-    public ResponseEntity<List<Servicos>> getAllServicos() {
+    public ResponseEntity<?> getAllServicos() {
+
         return ResponseEntity.ok(service.getAllServicos());
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseEntity<?>> getServico(@PathVariable Long id) {
+    public ResponseEntity<?> getServico(@PathVariable Long id) {
         return ResponseEntity.ok(service.getServico(id));
     }
 
     @PostMapping
-    public ResponseEntity<Servicos> postServico(@RequestBody Servicos servico) {
+    public ResponseEntity<?> postServico(@RequestBody Servicos servico) {
         return ResponseEntity.ok(service.saveServicos(servico));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Servicos> putServico(@PathVariable Long id, @RequestBody Servicos servico) {
+    public ResponseEntity<?> putServico(@PathVariable Long id, @RequestBody Servicos servico) {
         return ResponseEntity.ok(service.updateServicos(id, servico));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteServico(@PathVariable Long id) {
+    public ResponseEntity<?> deleteServico(@PathVariable Long id) {
         service.deleteServicos(id);
         return ResponseEntity.ok().build();
     }

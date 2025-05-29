@@ -287,45 +287,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "SetNivelUsuario",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nivel\" : 0 \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/usuarios/1/nivel",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"usuarios",
-								"1",
-								"nivel"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -340,7 +301,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6ImZlbGlwZS5tYXJpYW5vMjUxMUBnbWFpbC5jb20iLCJuaXZlbCI6MCwidHlwZSI6ImFjY2Vzcy10b2tlbiIsImV4cCI6MTc0ODEyOTA3M30.yNDwe4M5rIT-42Da6EUiI28dJAo2IMTGgDGjUkEw29M",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -360,6 +321,62 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "BuscarTodosServicos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/servicos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarTodosServicos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/servicos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -373,7 +390,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nomeCompleto\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano1903@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"raw": "{\r\n    \"nomeCompleto\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -401,7 +418,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"felipe.mariano1903@gmail.com\",\r\n    \"codigo\" : \"724204\"\r\n}",
+							"raw": "{\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"codigo\" : \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

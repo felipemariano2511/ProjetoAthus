@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "categorias")
 @Getter
@@ -18,5 +20,7 @@ public class Categorias {
     @Column(name = "nome")
     private String nome;
 
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Servicos> servicos;
 
 }
