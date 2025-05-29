@@ -1,10 +1,16 @@
 package br.com.unicuritiba.projetoathus.application.services;
 
+import br.com.unicuritiba.projetoathus.domain.dto.PrestacaoServicoDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.ServicoDTO;
+import br.com.unicuritiba.projetoathus.domain.models.Categorias;
 import br.com.unicuritiba.projetoathus.domain.models.Servicos;
+import br.com.unicuritiba.projetoathus.domain.repositories.CategoriasRepository;
 import br.com.unicuritiba.projetoathus.domain.repositories.ServicosRepository;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NoContentException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import br.com.unicuritiba.projetoathus.mappers.ServicoMapper;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,13 +19,26 @@ import java.util.Optional;
 
 @Service
 public class ServicosService {
+
     @Autowired
     private ServicosRepository repository;
 
     @Autowired
     private ServicoMapper mapper;
 
-    public List<Servicos> getAllServicos() {return repository.findAll();}
+    public ResponseEntity<List<ServicoDTO>> getAllServicos() {
+        List<ServicoDTO> servicos = repository.findAll()
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
+
+        if (servicos.isEmpty()) {
+            throw new NoContentException("Nenhuma prestação de serviço encontrada.");
+        }
+
+        return ResponseEntity.ok(servicos);
+    }
+
 
     public ResponseEntity<?> getServico(Long id) throws NotFoundException{
 

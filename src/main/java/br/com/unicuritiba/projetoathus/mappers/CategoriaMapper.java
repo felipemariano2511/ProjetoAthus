@@ -1,21 +1,20 @@
 package br.com.unicuritiba.projetoathus.mappers;
 
 import org.springframework.stereotype.Component;
-
 import br.com.unicuritiba.projetoathus.domain.models.Categorias;
-import br.com.unicuritiba.projetoathus.dto.CategoriaDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.CategoriasDTO;
 
 @Component
 public class CategoriaMapper {
 
-    public CategoriaDTO toDTO(Categorias c){
-        return new CategoriaDTO(
+    public CategoriasDTO toDTO(Categorias c){
+        return new CategoriasDTO(
             c.getId(),
             c.getNome()
             );
     }
 
-    public Categorias toEntity(CategoriaDTO c){
+    public Categorias toEntity(CategoriasDTO c){
         Categorias categoria = new Categorias();
         
         categoria.setId(c.id());
