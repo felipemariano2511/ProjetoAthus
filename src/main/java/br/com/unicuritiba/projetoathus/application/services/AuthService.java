@@ -28,35 +28,39 @@ public class AuthService {
     private final Map<String, VerificarCadastro> verificacoes = new ConcurrentHashMap<>();
     private final Map<String, RegisterRequestDTO> cadastrosPendentes = new ConcurrentHashMap<>();
 
-    public ResponseEntity<?> iniciarCadastro(RegisterRequestDTO body) {
-        if (repository.findByEmail(body.email()).isPresent()) {
-            throw new ConflictException("Não é possível cadastrar o usuário, pois o e-mail já está em uso.");
+    public ResponseEntity<Map<String, String>> iniciarCadastro(RegisterRequestDTO body) {
+        try{
+            if (repository.findByEmail(body.email()).isPresent()) {
+                throw new ConflictException("Não é possível cadastrar o usuário, pois o e-mail já está em uso.");
+            }
+
+            VerificarCadastro verificador = verificacoes.getOrDefault(body.email(), new VerificarCadastro());
+            int codigo = verificador.gerarCodigo(false);
+
+            verificacoes.put(body.email(), verificador);
+            cadastrosPendentes.put(body.email(), body);
+
+            Map<String, Object> variaveis = new HashMap<>();
+            variaveis.put("nome", body.nomeCompleto());
+            variaveis.put("codigo", codigo);
+
+            emailService.enviarEmailComTemplate(
+                    body.email(),
+                    "Seu código de verificação - Instituto Athus",
+                    "email-codigo-verificacao",
+                    variaveis
+            );
+
+
+            return ResponseEntity.ok(Map.of(
+                    "message",   String.format("Código de verificação enviado para o e-mail: %s", body.email())
+            ));
+        }catch (Exception e){
+            throw new BadRequestException("Todos os campos não foram preenchidos");
         }
-
-        VerificarCadastro verificador = verificacoes.getOrDefault(body.email(), new VerificarCadastro());
-        int codigo = verificador.gerarNovoCodigo();
-
-        verificacoes.put(body.email(), verificador);
-        cadastrosPendentes.put(body.email(), body);
-
-        Map<String, Object> variaveis = new HashMap<>();
-        variaveis.put("nome", body.nomeCompleto());
-        variaveis.put("codigo", codigo);
-
-        emailService.enviarEmailComTemplate(
-                body.email(),
-                "Seu código de verificação - Instituto Athus",
-                "email-codigo-verificacao",
-                variaveis
-        );
-
-
-        return ResponseEntity.ok(Map.of(
-                "message",   String.format("Código de verificação enviado para o e-mail: %s", body.email())
-        ));
     }
 
-    public ResponseEntity<?> login(LoginRequestDTO body) {
+    public ResponseEntity<Map<String, String>> login(LoginRequestDTO body) {
 
         return repository.findByEmail(body.email())
                 .map(usuario -> {
@@ -75,7 +79,7 @@ public class AuthService {
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado."));
     }
 
-    public ResponseEntity<?> refresh(String refreshToken) {
+    public ResponseEntity<Map<String, String>> refresh(String refreshToken) {
         DecodedJWT jwt = tokenService.validarToken(refreshToken);
 
         if (jwt == null) {
@@ -94,9 +98,9 @@ public class AuthService {
         }
     }
 
-    public ResponseEntity<Map> solicitarNovoCodigo(RegisterRequestDTO body) {
+    public ResponseEntity<Map<String, String>> solicitarNovoCodigo(RegisterRequestDTO body) {
         VerificarCadastro verificador = verificacoes.getOrDefault(body.email(), new VerificarCadastro());
-        int codigo = verificador.solicitarCodigoExtra();
+        int codigo = verificador.gerarCodigo(true);
 
         verificacoes.put(body.email(), verificador);
         cadastrosPendentes.put(body.email(), body);
@@ -118,56 +122,60 @@ public class AuthService {
         ));
     }
 
-    public ResponseEntity<Map> validarCodigo(String email, int codigo) {
-        VerificarCadastro verificador = verificacoes.get(email);
-        if (verificador == null) {
-            throw new BuisnessException("Nenhum código foi gerado para esse e-mail.");
+    public ResponseEntity<Map<String, String>> validarCodigo(String email, int codigo) {
+        try {
+            VerificarCadastro verificador = verificacoes.get(email);
+            if (verificador == null) {
+                throw new BuisnessException("Nenhum código foi gerado para esse e-mail.");
+            }
+
+            var resultado = verificador.verificarCodigo(codigo);
+
+            if (!resultado.sucesso()) {
+                throw new BadRequestException(resultado.mensagem());
+            }
+
+            RegisterRequestDTO dados = cadastrosPendentes.get(email);
+            if (dados == null) {
+                throw new IllegalStateException("Nenhum cadastro pendente foi encontrado.");
+            }
+
+            Usuario usuario = new Usuario();
+            usuario.setNomeCompleto(dados.nomeCompleto());
+            usuario.setNome(dados.nomeCompleto());
+            usuario.setEmail(dados.email());
+            usuario.setSenha(passwordEncoder.encode(dados.senha()));
+            usuario.setNumero(0);
+            usuario.setApartamento(0);
+            usuario.setImagemPerfil("storage/imagens/usuarios/usuario.png");
+            usuario.setNivel((short) 0);
+            usuario.setAtivo(true);
+            usuario.setBanido(false);
+
+            repository.save(usuario);
+            verificacoes.remove(email);
+            cadastrosPendentes.remove(email);
+
+            Map<String, Object> variaveis = new HashMap<>();
+            variaveis.put("nome", usuario.getNomeCompleto());
+            variaveis.put("email", usuario.getEmail());
+
+            emailService.enviarEmailComTemplate(
+                    usuario.getEmail(),
+                    "Cadastro realizado com sucesso",
+                    "email-conta-criada",
+                    variaveis
+            );
+
+            String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail(), usuario.getNivel());
+            String novoRefreshToken = tokenService.gerarRefreshToken(email, usuario.getNivel());
+
+            return ResponseEntity.ok(Map.of(
+                    "accessToken", novoAccessToken,
+                    "refreshToken", novoRefreshToken
+            ));
+        }catch (Exception e){
+            throw new BadRequestException("Campos não preenchidos.");
         }
-
-        var resultado = verificador.verificarCodigo(codigo);
-
-        if (!resultado.sucesso()) {
-            throw new BadRequestException(resultado.mensagem());
-        }
-
-        RegisterRequestDTO dados = cadastrosPendentes.get(email);
-        if (dados == null) {
-            throw new IllegalStateException("Nenhum cadastro pendente foi encontrado.");
-        }
-
-        Usuario usuario = new Usuario();
-        usuario.setNomeCompleto(dados.nomeCompleto());
-        usuario.setNome(dados.nomeCompleto());
-        usuario.setEmail(dados.email());
-        usuario.setSenha(passwordEncoder.encode(dados.senha()));
-        usuario.setNumero(0);
-        usuario.setApartamento(0);
-        usuario.setImagemPerfil("storage/imagens/usuarios/usuario.png");
-        usuario.setNivel((short) 0);
-        usuario.setAtivo(true);
-        usuario.setBanido(false);
-
-        repository.save(usuario);
-        verificacoes.remove(email);
-        cadastrosPendentes.remove(email);
-
-        Map<String, Object> variaveis = new HashMap<>();
-        variaveis.put("nome", usuario.getNomeCompleto());
-        variaveis.put("email", usuario.getEmail());
-
-        emailService.enviarEmailComTemplate(
-                usuario.getEmail(),
-                "Cadastro realizado com sucesso",
-                "email-conta-criada",
-                variaveis
-        );
-
-        String novoAccessToken = tokenService.gerarAccessToken(usuario.getEmail(), usuario.getNivel());
-        String novoRefreshToken = tokenService.gerarRefreshToken(email, usuario.getNivel());
-
-        return ResponseEntity.ok(Map.of(
-                "accessToken", novoAccessToken,
-                "refreshToken", novoRefreshToken
-        ));
     }
 }
