@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class UsuarioService {
@@ -34,17 +36,18 @@ public class UsuarioService {
     @Autowired
     private TokenService tokenService;
 
-    public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() throws NoContentException {
+    public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() throws NoContentException{
         return ResponseEntity.ok(repository.findAll()
                 .stream()
                 .map(mapper::toDTO)
                 .toList());
     }
 
-    public ResponseEntity<?> getUsuario(Long id) throws NotFoundException{
-        return ResponseEntity.ok(repository.findById(id)
-                .stream()
-                .map(mapper::toDTO));
+    public ResponseEntity<?> getUsuario(Long id) {
+        Usuario usuarioOptional = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o id: %s", id)));
+
+        return ResponseEntity.ok(mapper.toDTO(usuarioOptional));
     }
 
     public ResponseEntity<UsuarioDTO> getInfoUsuarioLogado() {
@@ -90,7 +93,7 @@ public class UsuarioService {
     }
 
 
-    public ResponseEntity<?> deleteUsuario(Long id) {
+    public ResponseEntity<Void> deleteUsuario(Long id) {
         return repository.findById(id)
                 .map(usuario -> {
                     repository.deleteById(id);
