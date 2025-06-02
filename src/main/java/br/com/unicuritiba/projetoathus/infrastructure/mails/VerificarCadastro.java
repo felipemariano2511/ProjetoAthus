@@ -18,8 +18,7 @@ public class VerificarCadastro {
     private int codigoGerado;
     private LocalDateTime expiracao;
     private int tentativasRestantes;
-    private LocalDateTime bloqueadoParaTokenAte;
-    private LocalDateTime bloqueadoParaVerificacaoAte;
+    private LocalDateTime bloqueadoAte;
     private boolean desbloqueado;
     private boolean codigoativo = false;
     private int quantidadeSolicitacoesExtra = 0;
@@ -28,38 +27,50 @@ public class VerificarCadastro {
         this.emailVerificado = false;
     }
 
-    public int gerarCodigo(boolean forcarGeracao) {
-        if (estaBloqueadoParaToken()) {
-            int segundos = (int) ChronoUnit.SECONDS.between(LocalDateTime.now(), bloqueadoParaTokenAte);
-            throw new UnprocessableEntityException("Emissão de novo código bloqueada. Aguarde " + segundos + " segundos.");
-        }
-
-        if (!forcarGeracao && this.codigoativo) {
-            throw new CreatedException("Código já enviado.");
-        }
-
-        if (forcarGeracao) {
-            quantidadeSolicitacoesExtra = Math.min(quantidadeSolicitacoesExtra + 1, 5);
-            if (quantidadeSolicitacoesExtra > 1) {
-                int tempoBloqueio = (int) Math.pow(2, quantidadeSolicitacoesExtra);
-                this.bloqueadoParaTokenAte = LocalDateTime.now().plusMinutes(tempoBloqueio);
-            }
+    public int gerarNovoCodigo() {
+        if (estaBloqueado()) {
+            int minutosRestantes = (int) ChronoUnit.MINUTES.between(LocalDateTime.now(), bloqueadoAte);
+            throw new UnprocessableEntityException(String.format("Usuário bloqueado. Aguarde %s minutos.", minutosRestantes));
         } else {
-            quantidadeSolicitacoesExtra = 0;
+            desbloquear();
+        }
+
+        if (this.codigoativo) {
+            throw new CreatedException("Código já enviado");
         }
 
         this.codigoGerado = 100000 + new Random().nextInt(900000);
         this.expiracao = LocalDateTime.now().plusMinutes(15);
         this.tentativasRestantes = MAX_TENTATIVAS;
         this.codigoativo = true;
+        this.quantidadeSolicitacoesExtra = 0;
+        return this.codigoGerado;
+    }
+
+    public int solicitarCodigoExtra() {
+        if (estaBloqueado()) {
+            int minutosRestantes = (int) ChronoUnit.MINUTES.between(LocalDateTime.now(), bloqueadoAte);
+            throw new UnprocessableEntityException(String.format("Usuário bloqueado. Aguarde %s minutos.", minutosRestantes));
+        } else {
+            desbloquear();
+        }
+
+        quantidadeSolicitacoesExtra++;
+        int tempoBloqueio = (int) Math.pow(2, quantidadeSolicitacoesExtra); // Exponencial
+        this.bloqueadoAte = LocalDateTime.now().plusMinutes(tempoBloqueio);
+        this.codigoGerado = 100000 + new Random().nextInt(900000);
+        this.expiracao = LocalDateTime.now().plusMinutes(15);
+        this.tentativasRestantes = MAX_TENTATIVAS;
+        this.codigoativo = true;
+
         return this.codigoGerado;
     }
 
     public VerificacaoStatus verificarCodigo(int codigoInformado) {
-        if (estaBloqueadoParaVerificacao()) {
+        if (estaBloqueado()) {
             destruirCodigo();
             this.codigoativo = false;
-            return VerificacaoStatus.bloqueado(bloqueadoParaVerificacaoAte);
+            return VerificacaoStatus.bloqueado(bloqueadoAte);
         }
 
         if (expiracao == null || LocalDateTime.now().isAfter(expiracao)) {
@@ -78,7 +89,7 @@ public class VerificarCadastro {
                 bloquear();
                 destruirCodigo();
                 this.codigoativo = false;
-                return VerificacaoStatus.bloqueado(bloqueadoParaVerificacaoAte);
+                return VerificacaoStatus.bloqueado(bloqueadoAte);
             }
             return VerificacaoStatus.invalido(tentativasRestantes);
         }
@@ -92,19 +103,15 @@ public class VerificarCadastro {
 
     private void bloquear() {
         this.desbloqueado = false;
-        this.bloqueadoParaVerificacaoAte = LocalDateTime.now().plusMinutes(30);
+        this.bloqueadoAte = LocalDateTime.now().plusMinutes(30);
     }
 
     private void desbloquear() {
         this.desbloqueado = true;
     }
 
-    private boolean estaBloqueadoParaToken() {
-        return bloqueadoParaTokenAte != null && LocalDateTime.now().isBefore(bloqueadoParaTokenAte);
-    }
-
-    private boolean estaBloqueadoParaVerificacao() {
-        return bloqueadoParaVerificacaoAte != null && LocalDateTime.now().isBefore(bloqueadoParaVerificacaoAte);
+    private boolean estaBloqueado() {
+        return bloqueadoAte != null && LocalDateTime.now().isBefore(bloqueadoAte);
     }
 
     public record VerificacaoStatus(boolean sucesso, String mensagem) {
@@ -113,8 +120,8 @@ public class VerificarCadastro {
         }
 
         public static VerificacaoStatus bloqueado(LocalDateTime ate) {
-            int segundosRestantes = (int) ChronoUnit.SECONDS.between(LocalDateTime.now(), ate);
-            return new VerificacaoStatus(false, String.format("Usuário bloqueado. Aguarde %s segundos.", segundosRestantes));
+            int minutosRestantes = (int) ChronoUnit.MINUTES.between(LocalDateTime.now(), ate);
+            return new VerificacaoStatus(false, String.format("Usuário bloqueado. Aguarde %s minutos.", minutosRestantes));
         }
 
         public static VerificacaoStatus expirado() {
