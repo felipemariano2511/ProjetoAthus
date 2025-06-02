@@ -40,17 +40,15 @@ public class PrestacaoServicoService {
 
     @Transactional
     public ResponseEntity<PrestacaoServicoDTO> criarPrestacaoServico(List<MultipartFile> imagens, PrestacaoServico prestacao) {
-        // Se necessário, você pode validar e buscar os objetos completos:
+
         Usuario usuario = usuarioRepository.findById(prestacao.getUsuario().getId())
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado!"));
         Servicos servico = servicosRepository.findById(prestacao.getServico().getId())
                 .orElseThrow(() -> new NotFoundException("Serviço não encontrado!"));
 
-        // Você pode substituir as referências com os objetos completos.
         prestacao.setUsuario(usuario);
         prestacao.setServico(servico);
 
-        // Aplica regras de negócio antes de salvar:
         prestacao.setAtivo(true);
         prestacao.setDataCriacao(LocalDateTime.now());
 
@@ -132,18 +130,16 @@ public class PrestacaoServicoService {
 
     @Transactional
     public ResponseEntity<List<PrestacaoServicoDTO>> procurarPorUsuario(Long usuarioId) {
-        // Busca o usuário pelo ID
+
         Usuario usuarioEntity = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado: " + usuarioId));
 
-        // Busca as prestações de serviço associadas a esse usuário
         List<PrestacaoServico> prestacoes = prestacaoServicoRepository.findByUsuario(usuarioEntity);
 
         if (prestacoes.isEmpty()) {
             throw new NoContentException("Nenhuma prestação de serviço encontrada para o usuário: " + usuarioId);
         }
 
-        // Converte a lista para DTOs usando o mapper
         List<PrestacaoServicoDTO> dtos = prestacoes.stream()
                 .map(prestacaoServicoMapper::toDTO)
                 .toList();
