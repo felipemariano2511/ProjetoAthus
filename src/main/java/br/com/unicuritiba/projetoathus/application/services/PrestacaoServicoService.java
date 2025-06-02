@@ -175,9 +175,9 @@ public class PrestacaoServicoService {
         List<String> caminhoImagens = new ArrayList<>();
 
         for (MultipartFile imagem : imagens) {
-            caminhoImagens.add(imagem.getOriginalFilename());
+            caminhoImagens.add("storage/imagens/anuncios/" + imagem.getOriginalFilename());
         }
-
+        
         return caminhoImagens;
     }
 

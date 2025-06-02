@@ -29,7 +29,7 @@ public class OAuth2GoogleService {
     @Autowired
     EmailService emailService;
 
-    public ResponseEntity<?> validarToken(String accessToken) {
+    public ResponseEntity<Map<String, String>> validarToken(String accessToken) {
 
         Map<String, Object> usuarioInfo = getUserInfo(accessToken);
 
@@ -46,7 +46,7 @@ public class OAuth2GoogleService {
             usuario.setNumero(0);
             usuario.setApartamento(0);
             usuario.setImagemPerfil((String) usuarioInfo.get("picture"));
-            usuario.setImagemPerfil("../images/usuario.png");
+            usuario.setImagemPerfil("storage/imagens/usuarios/usuario.png");
             usuario.setNivel((short) 0);
             usuario.setAtivo(true);
             usuario.setBanido(false);

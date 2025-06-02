@@ -1,4 +1,4 @@
-package br.com.unicuritiba.projetoathus.controllers;
+package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.ResetSenhaService;
 import br.com.unicuritiba.projetoathus.dto.ResetSenhaDTO;
