@@ -2,12 +2,15 @@ package br.com.unicuritiba.projetoathus.application.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
+
+import java.io.InputStream;
 import java.util.Map;
 import org.springframework.core.io.ClassPathResource;
 
@@ -38,8 +41,8 @@ public class EmailService {
             helper.setSubject(assunto);
             helper.setText(html, true);
 
-            ClassPathResource imagem = new ClassPathResource("images/logo_Athus.png");
-            helper.addInline("logoAthus", imagem);
+            InputStream inputStream = new ClassPathResource("static/images/logo_Athus.png").getInputStream();
+            helper.addInline("logoAthus", new ByteArrayResource(inputStream.readAllBytes()), "image/png");
 
             mailSender.send(mensagem);
 
@@ -63,8 +66,8 @@ public class EmailService {
             helper.setSubject(assunto);
             helper.setText(html, true);
 
-            ClassPathResource imagem = new ClassPathResource("images/logo_Athus.png");
-            helper.addInline("logoAthus", imagem);
+            InputStream inputStream = new ClassPathResource("static/images/logo_Athus.png").getInputStream();
+            helper.addInline("logoAthus", new ByteArrayResource(inputStream.readAllBytes()), "image/png");
 
             mailSender.send(mensagem);
 
