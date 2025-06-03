@@ -1,4 +1,4 @@
-package br.com.unicuritiba.projetoathus.domain.dto;
+package br.com.unicuritiba.projetoathus.domain.dto.servico;
 
 public record ServicoDTO (
     Long id,

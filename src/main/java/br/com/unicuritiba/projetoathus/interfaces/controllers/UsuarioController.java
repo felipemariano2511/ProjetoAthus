@@ -2,9 +2,9 @@ package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.forms.UsuarioForm;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
-import br.com.unicuritiba.projetoathus.domain.dto.SetAtivoDTO;
-import br.com.unicuritiba.projetoathus.dto.SetNivelDTO;
-import br.com.unicuritiba.projetoathus.domain.dto.UsuarioDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.usuario.SetAtivoDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.usuario.SetNivelDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.usuario.UsuarioDTO;
 import br.com.unicuritiba.projetoathus.application.services.UsuarioService;
 import br.com.unicuritiba.projetoathus.mappers.UsuarioFormMapper;
 import br.com.unicuritiba.projetoathus.mappers.UsuarioMapper;

@@ -1,16 +1,12 @@
 package br.com.unicuritiba.projetoathus.application.services;
 
-import br.com.unicuritiba.projetoathus.domain.dto.PrestacaoServicoDTO;
-import br.com.unicuritiba.projetoathus.domain.dto.ServicoDTO;
-import br.com.unicuritiba.projetoathus.domain.models.Categorias;
+import br.com.unicuritiba.projetoathus.domain.dto.servico.ServicoDTO;
 import br.com.unicuritiba.projetoathus.domain.models.Servicos;
-import br.com.unicuritiba.projetoathus.domain.repositories.CategoriasRepository;
 import br.com.unicuritiba.projetoathus.domain.repositories.ServicosRepository;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NoContentException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import br.com.unicuritiba.projetoathus.mappers.ServicoMapper;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

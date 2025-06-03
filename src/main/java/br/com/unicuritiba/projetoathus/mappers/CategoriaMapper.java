@@ -2,7 +2,7 @@ package br.com.unicuritiba.projetoathus.mappers;
 
 import org.springframework.stereotype.Component;
 import br.com.unicuritiba.projetoathus.domain.models.Categorias;
-import br.com.unicuritiba.projetoathus.domain.dto.CategoriasDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.categoria.CategoriasDTO;
 
 @Component
 public class CategoriaMapper {

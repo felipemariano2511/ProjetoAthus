@@ -1,4 +1,6 @@
-package br.com.unicuritiba.projetoathus.domain.dto;
+package br.com.unicuritiba.projetoathus.domain.dto.prestacaoservicos;
+
+import br.com.unicuritiba.projetoathus.domain.dto.categoria.CategoriasDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;

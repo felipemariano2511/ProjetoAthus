@@ -1,4 +1,4 @@
-package br.com.unicuritiba.projetoathus.dto;
+package br.com.unicuritiba.projetoathus.domain.dto.auth;
 
 
 public class ResetSenhaDTO {

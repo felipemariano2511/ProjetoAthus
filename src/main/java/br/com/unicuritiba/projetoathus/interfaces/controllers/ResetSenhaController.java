@@ -1,7 +1,7 @@
 package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.ResetSenhaService;
-import br.com.unicuritiba.projetoathus.dto.ResetSenhaDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.auth.ResetSenhaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

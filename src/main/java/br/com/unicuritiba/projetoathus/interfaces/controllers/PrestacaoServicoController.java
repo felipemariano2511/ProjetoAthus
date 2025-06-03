@@ -1,7 +1,7 @@
 package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.PrestacaoServicoService;
-import br.com.unicuritiba.projetoathus.domain.dto.PrestacaoServicoDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.prestacaoservicos.PrestacaoServicoDTO;
 import br.com.unicuritiba.projetoathus.domain.models.PrestacaoServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
