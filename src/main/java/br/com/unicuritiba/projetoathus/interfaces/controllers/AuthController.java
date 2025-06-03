@@ -1,8 +1,8 @@
 package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.AuthService;
-import br.com.unicuritiba.projetoathus.domain.dto.LoginRequestDTO;
-import br.com.unicuritiba.projetoathus.domain.dto.RegisterRequestDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.auth.LoginRequestDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.auth.RegisterRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -2,7 +2,7 @@ package br.com.unicuritiba.projetoathus.application.services;
 
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
 import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
-import br.com.unicuritiba.projetoathus.domain.dto.UsuarioDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.usuario.UsuarioDTO;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NoContentException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnauthorizedException;
@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class UsuarioService {

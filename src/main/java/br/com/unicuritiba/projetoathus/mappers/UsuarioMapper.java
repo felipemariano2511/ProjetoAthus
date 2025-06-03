@@ -1,7 +1,7 @@
 package br.com.unicuritiba.projetoathus.mappers;
 
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
-import br.com.unicuritiba.projetoathus.domain.dto.UsuarioDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.usuario.UsuarioDTO;
 import org.springframework.stereotype.Component;
 
 @Component

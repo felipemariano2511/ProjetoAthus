@@ -2,7 +2,7 @@ package br.com.unicuritiba.projetoathus.application.services;
 
 import br.com.unicuritiba.projetoathus.domain.models.Categorias;
 import br.com.unicuritiba.projetoathus.domain.repositories.CategoriasRepository;
-import br.com.unicuritiba.projetoathus.domain.dto.CategoriasDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.categoria.CategoriasDTO;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NoContentException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import br.com.unicuritiba.projetoathus.mappers.CategoriaMapper;

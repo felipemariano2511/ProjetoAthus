@@ -9,7 +9,7 @@ import br.com.unicuritiba.projetoathus.domain.repositories.UsuarioRepository;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NoContentException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.NotFoundException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
-import br.com.unicuritiba.projetoathus.domain.dto.PrestacaoServicoDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.prestacaoservicos.PrestacaoServicoDTO;
 import br.com.unicuritiba.projetoathus.mappers.PrestacaoServicoMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

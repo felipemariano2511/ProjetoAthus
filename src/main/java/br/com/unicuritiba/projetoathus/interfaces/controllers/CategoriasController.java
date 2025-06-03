@@ -2,7 +2,7 @@ package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.CategoriasService;
 import br.com.unicuritiba.projetoathus.domain.models.Categorias;
-import br.com.unicuritiba.projetoathus.domain.dto.CategoriasDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.categoria.CategoriasDTO;
 import br.com.unicuritiba.projetoathus.mappers.CategoriaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

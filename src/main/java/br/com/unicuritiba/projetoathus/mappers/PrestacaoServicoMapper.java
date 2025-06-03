@@ -1,7 +1,7 @@
 package br.com.unicuritiba.projetoathus.mappers;
 
-import br.com.unicuritiba.projetoathus.domain.dto.CategoriasDTO;
-import br.com.unicuritiba.projetoathus.domain.dto.PrestacaoServicoDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.categoria.CategoriasDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.prestacaoservicos.PrestacaoServicoDTO;
 import br.com.unicuritiba.projetoathus.domain.models.PrestacaoServico;
 import br.com.unicuritiba.projetoathus.domain.models.Servicos;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;

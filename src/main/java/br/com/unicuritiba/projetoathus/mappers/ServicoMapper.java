@@ -1,10 +1,9 @@
 package br.com.unicuritiba.projetoathus.mappers;
 
-import br.com.unicuritiba.projetoathus.domain.dto.CategoriasDTO;
 import br.com.unicuritiba.projetoathus.domain.models.Categorias;
 import org.springframework.stereotype.Component;
 import br.com.unicuritiba.projetoathus.domain.models.Servicos;
-import br.com.unicuritiba.projetoathus.domain.dto.ServicoDTO;
+import br.com.unicuritiba.projetoathus.domain.dto.servico.ServicoDTO;
 
 @Component
 public class ServicoMapper {
