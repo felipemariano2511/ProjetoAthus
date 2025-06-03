@@ -1,5 +1,6 @@
 package br.com.unicuritiba.projetoathus.application.services;
 
+import br.com.unicuritiba.projetoathus.domain.dto.prestacaoservicos.PSPUTDTO;
 import br.com.unicuritiba.projetoathus.domain.models.PrestacaoServico;
 import br.com.unicuritiba.projetoathus.domain.models.Servicos;
 import br.com.unicuritiba.projetoathus.domain.models.Usuario;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PrestacaoServicoService {
@@ -96,14 +98,33 @@ public class PrestacaoServicoService {
     }
 
     @Transactional
-    public ResponseEntity<PrestacaoServicoDTO> atualizarPrestacaoServico(List<MultipartFile> imagens, PrestacaoServicoDTO dto) {
-        Usuario usuario = usuarioRepository.findById(dto.usuario().id())
+    public ResponseEntity<PrestacaoServicoDTO> atualizarPrestacaoServico(List<MultipartFile> imagens, PSPUTDTO dto) {
+        Usuario usuario = usuarioRepository.findById(dto.usuario())
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado no banco de dados."));
-        Servicos servico = servicosRepository.findById(dto.servico().id())
+        Servicos servico = servicosRepository.findById(dto.servico())
                 .orElseThrow(() -> new NotFoundException("Serviço não encontrado no banco de dados."));
 
-        PrestacaoServico prestacaoAtualizada = prestacaoServicoMapper.toEntity(dto, usuario, servico);
+
+        PrestacaoServico prestacaoServico = prestacaoServicoRepository.findById(dto.id()).
+                orElseThrow(() -> new NotFoundException("prestacao nao encontrada?*isso nao deve ocorrer"));
+
+        // correcao rapida feita para alguns dados nao sumirem caso nao forem adicionados ou apagados por acidente na hora de enviar.
+
+
+        PrestacaoServico prestacaoAtualizada = prestacaoServicoMapper.btoEntity(dto, usuario, servico);
+
+        if (prestacaoAtualizada.getDescricaoCompleta().equals(" ")){
+            prestacaoAtualizada.setDescricaoCompleta(prestacaoServico.getDescricaoCompleta());
+        }
+        if (prestacaoAtualizada.getDescricaoCurta().equals(" ")){
+            prestacaoAtualizada.setDescricaoCurta(prestacaoServico.getDescricaoCurta());
+        }
+        if (prestacaoAtualizada.getValor() == null){
+            prestacaoAtualizada.setValor(prestacaoServico.getValor());
+        }
+
         prestacaoAtualizada.setDataCriacao(LocalDateTime.now());
+
 
         if (imagens != null && imagens.size() < 5) {
             prestacaoAtualizada.setImagens(salvarImagens(imagens));
