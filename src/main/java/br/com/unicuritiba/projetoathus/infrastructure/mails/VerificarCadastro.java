@@ -1,8 +1,7 @@
 package br.com.unicuritiba.projetoathus.infrastructure.mails;
 
-import br.com.unicuritiba.projetoathus.infrastructure.exceptions.ConflictException;
 import br.com.unicuritiba.projetoathus.infrastructure.exceptions.UnprocessableEntityException;
-import br.com.unicuritiba.projetoathus.infrastructure.exceptions.handler.CreatedException;
+import br.com.unicuritiba.projetoathus.infrastructure.exceptions.CreatedException;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
