@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "371a1cc5-a85b-4ce3-b709-6e5c3bc81fff",
+		"_postman_id": "393520d3-addc-4bb0-8412-6f1034d6db92",
 		"name": "ProjetoAthus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "43766876",
-		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-371a1cc5-a85b-4ce3-b709-6e5c3bc81fff?action=share&source=collection_link&creator=43766876"
+		"_collection_link": "https://felipemariano-5136873.postman.co/workspace/Felipe-Mariano's-Workspace~533e7d92-5dbf-45de-8402-37704dd7e01a/collection/43766876-393520d3-addc-4bb0-8412-6f1034d6db92?action=share&source=collection_link&creator=43766876"
 	},
 	"item": [
 		{
@@ -381,6 +381,378 @@
 			]
 		},
 		{
+			"name": "Prestação de Serviços",
+			"item": [
+				{
+					"name": "BuscarTodosServicos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarServicoPeloId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarServicoPeloUsuarioId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos/usuario/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos",
+								"usuario",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarServicoPeloServiçoNome",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos/servico/Encanador",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos",
+								"servico",
+								"Encanador"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CadastrarServiçoPrestado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuario",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "servico",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "descricaoCompleta",
+									"value": "hat is Lorem Ipsum?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\nWhy do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\n\n",
+									"type": "text"
+								},
+								{
+									"key": "valor",
+									"value": "2000.00",
+									"type": "text"
+								},
+								{
+									"key": "descricaoCurta",
+									"value": "hat is Lorem Ipsum?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n\n",
+									"type": "text"
+								},
+								{
+									"key": "ativo",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "imagem",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/230409397745471.jpg"
+								},
+								{
+									"key": "imagem",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/2019-12-02-argo-trekking-1.webp"
+								},
+								{
+									"key": "imagem",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/volkswagen-fusca-1500-i63t2h-seq-1-16-classico-0339.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AtualizarServiçoPrestado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "usuario",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "servico",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "descricaoCompleta",
+									"value": "hat is Lorem Ipsum?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\nWhy do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\n\n",
+									"type": "text"
+								},
+								{
+									"key": "valor",
+									"value": "2000.00",
+									"type": "text"
+								},
+								{
+									"key": "descricaoCurta",
+									"value": "hat is Lorem Ipsum?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n\n",
+									"type": "text"
+								},
+								{
+									"key": "ativo",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "imagem",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/230409397745471.jpg"
+								},
+								{
+									"key": "imagem",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/2019-12-02-argo-trekking-1.webp"
+								},
+								{
+									"key": "imagem",
+									"type": "file",
+									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/volkswagen-fusca-1500-i63t2h-seq-1-16-classico-0339.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DesativarServicoPorId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos/desativar/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos",
+								"desativar",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AtivarServicoPorId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos/ativar/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos",
+								"ativar",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletarServicoPorId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/prestacaoservicos/10",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"prestacaoservicos",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Login / Cadastrar",
 			"item": [
 				{
@@ -406,6 +778,34 @@
 							"path": [
 								"auth",
 								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SolicitarNovoCodigoVerificação",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/novocodigo",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"novocodigo"
 							]
 						}
 					},
@@ -635,145 +1035,6 @@
 							"raw": "Cole aqui o link recebido no email",
 							"host": [
 								"Cole aqui o link recebido no email"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SolicitarNovoCodigoVerificação",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nomeCompleto\" : \"Felipe Mariano\",\r\n    \"email\" : \"felipe.mariano2511@gmail.com\",\r\n    \"senha\" : \"123\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/auth/novocodigo",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"novocodigo"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Prestação de Serviços",
-			"item": [
-				{
-					"name": "BuscarTodosServicos",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/prestacaoservicos",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"prestacaoservicos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CadastrarServiçoPrestado",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "usuario",
-									"value": "2",
-									"type": "text"
-								},
-								{
-									"key": "servico",
-									"value": "5",
-									"type": "text"
-								},
-								{
-									"key": "descricaoCompleta",
-									"value": "hat is Lorem Ipsum?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\nWhy do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\n\n",
-									"type": "text"
-								},
-								{
-									"key": "valor",
-									"value": "2000.00",
-									"type": "text"
-								},
-								{
-									"key": "descricaoCurta",
-									"value": "hat is Lorem Ipsum?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n\n",
-									"type": "text"
-								},
-								{
-									"key": "ativo",
-									"value": "true",
-									"type": "text"
-								},
-								{
-									"key": "imagem",
-									"type": "file",
-									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/230409397745471.jpg"
-								},
-								{
-									"key": "imagem",
-									"type": "file",
-									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/2019-12-02-argo-trekking-1.webp"
-								},
-								{
-									"key": "imagem",
-									"type": "file",
-									"src": "/C:/Users/Felipe Mariano/OneDrive/Imagens/Saved Pictures/volkswagen-fusca-1500-i63t2h-seq-1-16-classico-0339.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "localhost:8080/prestacaoservicos",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"prestacaoservicos"
 							]
 						}
 					},
