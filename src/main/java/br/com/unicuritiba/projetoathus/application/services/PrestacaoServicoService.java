@@ -113,10 +113,10 @@ public class PrestacaoServicoService {
 
         PrestacaoServico prestacaoAtualizada = prestacaoServicoMapper.btoEntity(dto, usuario, servico);
 
-        if (prestacaoAtualizada.getDescricaoCompleta().equals(" ")){
+        if (prestacaoAtualizada.getDescricaoCompleta().equals("")){
             prestacaoAtualizada.setDescricaoCompleta(prestacaoServico.getDescricaoCompleta());
         }
-        if (prestacaoAtualizada.getDescricaoCurta().equals(" ")){
+        if (prestacaoAtualizada.getDescricaoCurta().equals("")){
             prestacaoAtualizada.setDescricaoCurta(prestacaoServico.getDescricaoCurta());
         }
         if (prestacaoAtualizada.getValor() == null){
