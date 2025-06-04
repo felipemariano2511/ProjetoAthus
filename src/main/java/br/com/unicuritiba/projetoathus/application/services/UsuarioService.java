@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 @Service
 public class UsuarioService {
@@ -57,6 +58,10 @@ public class UsuarioService {
         return ResponseEntity.ok(mapper.toDTO(usuarioLogado));
     }
 
+    private <T> void atualizarSeNaoNulo(Consumer<T> setter, T valor) {
+        if (valor != null) setter.accept(valor);
+    }
+
     public ResponseEntity<Usuario> putUsuario(MultipartFile imagem, Usuario usuario) throws NotFoundException {
         String email = getEmailUsuarioLogado();
 
@@ -70,20 +75,20 @@ public class UsuarioService {
             usuarioLogado.setImagemPerfil(caminhoImagem);
         }
 
-        usuarioLogado.setNome(usuario.getNome());
-        usuarioLogado.setTelefone(usuario.getTelefone());
-        usuarioLogado.setCpf(usuario.getCpf());
-        usuarioLogado.setDataNascimento(usuario.getDataNascimento());
-        usuarioLogado.setPais(usuario.getPais());
-        usuarioLogado.setEstado(usuario.getEstado());
-        usuarioLogado.setCidade(usuario.getCidade());
-        usuarioLogado.setCep(usuario.getCep());
-        usuarioLogado.setRua(usuario.getRua());
-        usuarioLogado.setNumero(usuario.getNumero());
-        usuarioLogado.setApartamento(usuario.getApartamento());
-        usuarioLogado.setLogradouro(usuario.getLogradouro());
-        usuarioLogado.setNivel(usuario.getNivel());
-        usuarioLogado.setPrestadorServico(usuario.isPrestadorServico());
+        atualizarSeNaoNulo(usuarioLogado::setNome, usuario.getNome());
+        atualizarSeNaoNulo(usuarioLogado::setTelefone, usuario.getTelefone());
+        atualizarSeNaoNulo(usuarioLogado::setCpf, usuario.getCpf());
+        atualizarSeNaoNulo(usuarioLogado::setDataNascimento, usuario.getDataNascimento());
+        atualizarSeNaoNulo(usuarioLogado::setPais, usuario.getPais());
+        atualizarSeNaoNulo(usuarioLogado::setEstado, usuario.getEstado());
+        atualizarSeNaoNulo(usuarioLogado::setCidade, usuario.getCidade());
+        atualizarSeNaoNulo(usuarioLogado::setCep, usuario.getCep());
+        atualizarSeNaoNulo(usuarioLogado::setRua, usuario.getRua());
+        atualizarSeNaoNulo(usuarioLogado::setNumero, usuario.getNumero());
+        atualizarSeNaoNulo(usuarioLogado::setApartamento, usuario.getApartamento());
+        atualizarSeNaoNulo(usuarioLogado::setLogradouro, usuario.getLogradouro());
+        atualizarSeNaoNulo(usuarioLogado::setNivel, usuario.getNivel());
+        atualizarSeNaoNulo(usuarioLogado::setPrestadorServico, usuario.isPrestadorServico());
 
         repository.saveAndFlush(usuarioLogado);
 
