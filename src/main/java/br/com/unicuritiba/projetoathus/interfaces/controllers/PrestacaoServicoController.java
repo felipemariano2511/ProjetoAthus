@@ -1,6 +1,7 @@
 package br.com.unicuritiba.projetoathus.interfaces.controllers;
 
 import br.com.unicuritiba.projetoathus.application.services.PrestacaoServicoService;
+import br.com.unicuritiba.projetoathus.domain.dto.prestacaoservicos.PSPUTDTO;
 import br.com.unicuritiba.projetoathus.domain.dto.prestacaoservicos.PrestacaoServicoDTO;
 import br.com.unicuritiba.projetoathus.domain.models.PrestacaoServico;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class PrestacaoServicoController {
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PrestacaoServicoDTO> putPrestacaoServico(
             @RequestParam("imagem") List<MultipartFile> imagens,
-            @ModelAttribute PrestacaoServicoDTO dto) {
+            @ModelAttribute PSPUTDTO dto) {
         return service.atualizarPrestacaoServico(imagens, dto);
     }
 
